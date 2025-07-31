@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jump Zone - קפיצה אחת משנה את הכל</title>
+    <title>Jump Zone | קפיצה אחת משנה את הכל</title>
     
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -42,7 +42,7 @@
         </section>
 
         <!-- Story Section -->
-        <section class="section p-8 md:p-12 bg-gray-900 text-white">
+        <section class="section p-8 md:p-12 bg-black/80 text-white">
             <div class="grid md:grid-cols-2 gap-12 max-w-6xl items-center">
                 <div class="order-2 md:order-1">
                     <h2 class="text-4xl md:text-5xl font-bold mb-6 text-indigo-400">קפיצה שהצילה חיים. הסיפור שלי.</h2>
@@ -253,11 +253,14 @@
             event.preventDefault();
             if (isWheeling) return;
 
-            isWheeling = true;
-            const direction = event.deltaY > 0 ? 1 : -1;
-            goToSection(currentIndex + direction);
+            // Require more scroll momentum to trigger section jump
+            if (Math.abs(event.deltaY) > 50) {
+                isWheeling = true;
+                const direction = event.deltaY > 0 ? 1 : -1;
+                goToSection(currentIndex + direction);
 
-            setTimeout(() => { isWheeling = false; }, 1000); // Debounce timeout
+                setTimeout(() => { isWheeling = false; }, 1500); // Longer debounce for less sensitivity
+            }
         }, { passive: false });
         
         // Handle window resize
