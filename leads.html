@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>לידים - Jump Zone</title>
+    <link rel="icon" type="image/jpeg" href="logo.jpg">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            background: #18191a;
+            color: #fff;
+            font-family: 'Heebo', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            direction: rtl;
+        }
+        .leads-container {
+            max-width: 100vw;
+            width: 98vw;
+            margin: 32px auto 0 auto;
+            background: #232323;
+            border-radius: 18px;
+            box-shadow: 0 2px 16px #222;
+            padding: 32px 24px 24px 24px;
+            overflow: hidden;
+        }
+        h1 {
+            color: #25D366;
+            margin-top: 0;
+        }
+        .leads-container > div[style*="overflow-x:auto"] {
+            margin: 0 -32px 0 -32px;
+            padding: 0 0 8px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+            background: #232323;
+            min-width: 0;
+        }
+        th, td {
+            border: 1px solid #333;
+            padding: 10px 8px;
+            text-align: right;
+        }
+        th {
+            background: #18191a;
+            color: #25D366;
+            font-size: 1.1em;
+        }
+        tr:nth-child(even) {
+            background: #202124;
+        }
+        tr:nth-child(odd) {
+            background: #232323;
+        }
+        @media (max-width: 700px) {
+            #leads-table {
+                min-width: 800px;
+            }
+            .leads-container {
+                overflow-x: auto;
+            }
+            table {
+                min-width: 800px;
+                font-size: 0.95em;
+            }
+            th, td {
+                padding: 7px 4px;
+            }
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            color: #25D366;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <!-- Firebase App (the core Firebase SDK) -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <!-- Firestore -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+</head>
+<body>
+    <div id="login-box" style="direction: rtl; max-width: 350px; margin: 100px auto 0 auto; background: #232323; border-radius: 18px; box-shadow: 0 2px 16px #222; padding: 36px 28px; text-align: center;">
+        <h2 style="color: #25D366; margin-bottom: 18px;">התחברות למערכת לידים</h2>
+        <input type="password" id="leads-password" placeholder="הכנס סיסמה" style="width: 90%; padding: 12px; border-radius: 8px; border: 1px solid #25D366; font-size: 1.1em; margin-bottom: 16px; text-align: center;">
+        <br>
+        <button id="login-btn" style="background: #25D366; color: #fff; border: none; padding: 10px 32px; border-radius: 8px; font-size: 1.1em; font-weight: bold; cursor: pointer;">כניסה</button>
+        <div id="login-error" style="color: #ff7043; margin-top: 14px; min-height: 24px;"></div>
+    </div>
+    <div class="leads-container" id="leads-content" style="display:none;">
+        <h1>רשימת לידים מהאתר</h1>
+        <table id="leads-table">
+            <thead>
+                <tr>
+                    <th>שם מלא</th>
+                    <th>אימייל</th>
+                    <th>טלפון</th>
+                    <th>הודעה</th>
+                    <th>אישור דיוור</th>
+                    <th>תאריך</th>
+                    <th>סטטוס טיפול</th>
+                    <th>מחיקה</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td colspan="6" style="text-align:center; color:#aaa;">טוען נתונים...</td></tr>
+            </tbody>
+        </table>
+        <a href="index.html" class="back-link">חזרה לאתר</a>
+    </div>
+    <script>
+      const PASSWORD = "Nnnn1234!!!";
+      const loginBox = document.getElementById('login-box');
+      const leadsContent = document.getElementById('leads-content');
+      const loginBtn = document.getElementById('login-btn');
+      const loginError = document.getElementById('login-error');
+      const passwordInput = document.getElementById('leads-password');
+      loginBtn.onclick = function() {
+        if(passwordInput.value === PASSWORD) {
+          loginBox.style.display = 'none';
+          leadsContent.style.display = '';
+        } else {
+          loginError.textContent = 'סיסמה שגויה';
+          passwordInput.value = '';
+          passwordInput.focus();
+        }
+      };
+      passwordInput.addEventListener('keydown', function(e) {
+        if(e.key === 'Enter') loginBtn.click();
+      });
+    </script>
+    <script>
+    // ... existing firebase code ...
+    // נטען רק אם עברנו את הסיסמה
+    if(document.getElementById('leads-content')) {
+      // הגדרות Firebase שלך (אותן כמו באתר)
+      const firebaseConfig = {
+        apiKey: "AIzaSyDwzjwerdGWv9_IVvdC6OERZwTBvgY9AQk",
+        authDomain: "jump-zone-netanel.firebaseapp.com",
+        projectId: "jump-zone-netanel",
+        storageBucket: "jump-zone-netanel.firebasestorage.app",
+        messagingSenderId: "336556043614",
+        appId: "1:336556043614:web:101a08a25c3fa822b4f3cf"
+      };
+      firebase.initializeApp(firebaseConfig);
+      const db = firebase.firestore();
+      async function loadLeads() {
+        const tableBody = document.querySelector('#leads-table tbody');
+        tableBody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:#aaa;">טוען נתונים...</td></tr>';
+        try {
+          const snapshot = await db.collection('leads').orderBy('created', 'desc').get();
+          if (snapshot.empty) {
+            tableBody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:#aaa;">לא נמצאו לידים</td></tr>';
+            return;
+          }
+          let html = '';
+          snapshot.forEach(doc => {
+            const data = doc.data();
+            const date = data.created && data.created.toDate ? data.created.toDate() : (data.created instanceof Date ? data.created : null);
+            html += `<tr>
+              <td>${data.name || ''}</td>
+              <td>${data.email || ''}</td>
+              <td>${data.phone || ''}</td>
+              <td>${data.message || ''}</td>
+              <td>${data.marketingConsent ? 'כן' : 'לא'}</td>
+              <td>${date ? date.toLocaleString('he-IL') : ''}</td>
+              <td><button class="handle-btn" data-id="${doc.id}" style="background:${data.handled ? '#25D366' : '#888'};color:#fff;border:none;border-radius:6px;padding:6px 14px;cursor:pointer;">${data.handled ? 'טופל' : 'לא טופל'}</button></td>
+              <td><button class="delete-btn" data-id="${doc.id}" style="background:#ff4444;color:#fff;border:none;border-radius:6px;padding:6px 14px;cursor:pointer;">מחק</button></td>
+            </tr>`;
+          });
+          tableBody.innerHTML = html;
+          document.querySelectorAll('.handle-btn').forEach(btn => {
+            btn.onclick = async function() {
+              const id = this.getAttribute('data-id');
+              const current = this.textContent === 'טופל';
+              await db.collection('leads').doc(id).update({ handled: !current });
+              this.textContent = !current ? 'טופל' : 'לא טופל';
+              this.style.background = !current ? '#25D366' : '#888';
+            };
+          });
+          document.querySelectorAll('.delete-btn').forEach(btn => {
+            btn.onclick = async function() {
+              const id = this.getAttribute('data-id');
+              if(confirm('האם אתה בטוח שברצונך למחוק פנייה זו?')) {
+                await db.collection('leads').doc(id).delete();
+                this.closest('tr').remove();
+              }
+            };
+          });
+        } catch (err) {
+          tableBody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:#f66;">שגיאה בטעינת נתונים</td></tr>';
+        }
+      }
+      // נטען רק אחרי התחברות
+      loginBtn.addEventListener('click', function() {
+        if(passwordInput.value === PASSWORD) loadLeads();
+      });
+      passwordInput.addEventListener('keydown', function(e) {
+        if(e.key === 'Enter' && passwordInput.value === PASSWORD) loadLeads();
+      });
+    }
+    </script>
+</body>
+</html> 

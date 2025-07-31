@@ -1,0 +1,40 @@
+        /* Custom styles */
+        body, html {
+            overflow: hidden;
+            height: 100%;
+            margin: 0;
+            background-color: #111827; /* bg-gray-900 */
+            font-family: 'Heebo', sans-serif;
+        }
+
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        #sections-container {
+            height: 100%;
+            width: 100%;
+            position: relative;
+            transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* "Bouncy" transition */
+            z-index: 1;
+        }
+
+        .section {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .cursor-grab {
+             cursor: grab;
+        }
+        .active.cursor-grabbing {
+            cursor: grabbing;
+        }
