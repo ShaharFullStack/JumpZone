@@ -4,108 +4,87 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a Hebrew-language fitness coaching landing page for "Jump Zone" - a jump rope training business. It's a static website built with vanilla HTML, CSS, and JavaScript, designed for Firebase Hosting deployment.
+This is a Hebrew RTL (right-to-left) landing page for "Jump Zone" - a jump rope fitness training business. The site features a full-screen section-based design with smooth scroll animations and mobile optimization.
 
 ## Architecture
 
-### Static Site Structure
-- **No build system** - direct file editing and deployment
-- **Firebase Hosting** configured for static file serving
-- **Firestore database** integration for form submissions
-- **Admin panel** at `leads.html` for lead management (password protected)
-
 ### Core Technologies
-- **HTML5** with semantic structure and RTL Hebrew support
-- **CSS3** with modern features (Grid, Flexbox, dark theme)
-- **Vanilla JavaScript** (ES6+) with Firebase 9.22.2
-- **Font Awesome 6.5.1** for icons
-
-## Key Technical Considerations
-
-### Hebrew Language Support
-- **RTL (Right-to-Left) text direction** throughout
-- Hebrew content requires special attention to text alignment
-- Navigation and layout elements designed for RTL reading flow
-- Use `text-align: right` for Hebrew paragraphs in content sections
-
-### Responsive Design Patterns
-- **Mobile-first approach** with dark theme (#18191a background)
-- **Fixed header** (58px height) - account for `margin-top: 58px` on main content
-- **Card-based layouts** with hover effects and shadow styling
-- **Gradient backgrounds** using brand colors (#e74c3c, #23272f, #18191a)
-
-### Firebase Integration
-- **Firestore** configured for contact form submissions
-- **Firebase config** in `script.js` - maintain API key security
-- **Admin authentication** for leads access - password stored in code
-- Form validation and success/error messaging in Hebrew
-
-### Accessibility Implementation
-- **UserWay widget** integrated for accessibility features
-- **High contrast mode** and font size adjustment capabilities
-- **Focus indicators** with yellow outline styling
-- **Semantic HTML** structure for screen readers
-
-## Development Workflow
+- **Frontend**: Pure HTML, CSS, JavaScript (no build process required)
+- **3D Graphics**: Three.js (CDN) for background canvas animations
+- **Styling**: Tailwind CSS (CDN) + custom CSS for responsive design
+- **Font**: Heebo (Google Fonts) for Hebrew text support
 
 ### File Structure
-- `index.html` - Main landing page (405 lines)
-- `styles.css` - Complete styling with dark theme (800+ lines)
-- `script.js` - Firebase integration and form handling (114 lines)
-- `leads.html` - Admin panel for form submissions
-- `accessibility.html` - Accessibility declaration page
+- `index.html` - Main page with embedded JavaScript for scroll mechanics
+- `styles.css` - Custom CSS with extensive mobile responsiveness
+- `script.js` - JavaScript utilities for accessibility and animations
+- `leads.html` - Secondary page for lead management
+- `accessibility.html` - Accessibility features page
+- `assets/` - Media files (videos, images, icons)
 
-### Common Tasks
-- **Style modifications**: Edit `styles.css` directly
-- **Content updates**: Modify Hebrew content in `index.html`
-- **Form handling**: Update Firebase logic in `script.js`
-- **Testing**: Open files directly in browser (no build step)
+### Key Design Patterns
 
-### Brand Guidelines
-- **Primary color**: #e74c3c (red/coral)
-- **Background**: #18191a (dark)
-- **Cards/sections**: #23272f (lighter dark)
-- **Text**: #f3f3f3 (light gray) and #fff (white)
-- **Hover effects**: Scale transforms and color transitions
+**Section-Based Navigation**: Uses `#sections-container` with CSS transforms to create "jump" scrolling between full-screen sections. Each section is 100vh height.
 
-## Business Context
+**Mobile-First Responsive**: Extensive CSS media queries optimize for mobile devices with specific handling for:
+- Dynamic viewport height (`100dvh`)
+- Safe area insets for notched devices
+- Touch-friendly button sizing (44px minimum)
+- Micro navigation dots (3-4px on mobile)
 
-### Target Audience
-- Hebrew-speaking fitness enthusiasts
-- All ages and fitness levels
-- Focus on mental health benefits alongside physical training
-- Accessibility-conscious community
+**RTL Support**: Full Hebrew language support with `dir="rtl"` and appropriate text alignment.
 
-### Content Sections
-1. **Hero** with trainer story and main CTA
-2. **About sections** (business, trainer, process)
-3. **Services** with detailed pricing table
-4. **Testimonials** with customer photos
-5. **FAQ** addressing common concerns
-6. **Contact form** with WhatsApp integration
+## Development Commands
 
-### Lead Management
-- Form submissions stored in Firestore
-- Admin panel accessible via password
-- Lead data includes contact info and selected services
-- WhatsApp integration for direct communication
+This is a static website with no build process. To develop:
 
-## Firebase Configuration
+1. **Local Development**: Open `index.html` directly in a browser
+2. **Testing**: Test responsive design using browser dev tools
+3. **Mobile Testing**: Use device simulation or actual mobile devices
 
-### Database Structure
-- Collection: `leads` (contact form submissions)
-- Fields: name, phone, email, service, message, timestamp
-- Admin access via password authentication in `leads.html`
+## Key Components
 
-### Security Considerations
-- Admin password hardcoded (consider environment variables for production)
-- Firebase API key exposed in client-side code (standard for web apps)
-- No user authentication system - simple password protection for admin
+### Scroll System (`index.html:179-287`)
+- Wheel, touch, and keyboard navigation between sections
+- Debounced scrolling to prevent rapid section jumping
+- Navigation dots with active state management
 
-## Accessibility Compliance
+### Responsive Breakpoints
+- **Desktop**: Default styles
+- **Tablet**: `@media (max-width: 768px)`
+- **Mobile**: `@media (max-width: 480px)`
+- **Small Mobile**: `@media (max-width: 375px)`
 
-- UserWay accessibility widget provides contrast, font size, and navigation assistance
-- Semantic HTML structure with proper heading hierarchy
-- Focus indicators for keyboard navigation
-- Alt text for images (hero logo, testimonial photos)
-- Accessibility declaration page as required by Israeli law
+### Video Backgrounds
+Uses HTML5 video with fallback poster images. Videos are positioned with `z-index: -1` to stay behind content.
+
+## Accessibility Features (`script.js`)
+- High contrast mode toggle
+- Font size adjustment (12px-24px range)
+- Screen reader compatible navigation
+- Keyboard navigation support
+- Touch-friendly interface elements
+
+## Content Management
+
+### WhatsApp Integration
+Contact buttons link directly to WhatsApp with pre-filled messages in Hebrew. Links use `wa.me` format with URL-encoded Hebrew text.
+
+### Pricing Table (`index.html:118-135`)
+Responsive table showing training session types and prices in Israeli Shekels (₪).
+
+## Mobile Optimization Notes
+
+The site heavily prioritizes mobile experience:
+- Hero section maintains prominence on all screen sizes
+- Other sections scale down content to fit mobile viewports
+- Navigation dots become extremely small (3-4px) on mobile
+- Tables and grids automatically collapse to single columns
+- Touch targets meet 44px minimum accessibility requirements
+
+## Performance Considerations
+
+- Three.js pixel ratio limited to 2x on mobile for performance
+- CSS animations use `will-change` and `backface-visibility` optimizations
+- Videos use `playsinline` attribute for iOS compatibility
+- Images use optimized loading and rendering hints for high-DPI displays
