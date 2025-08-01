@@ -13,12 +13,12 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
         canvas.style.pointerEvents = 'none';
         
         camera.position.z = 2;
-
+// x: 0, y: 0.55, z: -2
         // Enhanced lighting for the mascot
         const ambientLight = new THREE.AmbientLight(0x404040, 5);
         scene.add(ambientLight);
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 2);
-        directionalLight.position.set(-12, 9.9, 10);
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 6);
+        directionalLight.position.set(0, 9.9, 10);
         scene.add(directionalLight);
         
         // Spotlight focused on the mascot
@@ -304,8 +304,8 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
                     };
                     
                     // Full body rotation to face mouse (more natural)
-                    bodyAdjustmentY = relativeMouse.x * 0.8; // Strong left/right body turn
-                    bodyAdjustmentX = relativeMouse.y * 0.3; // Moderate forward/back body lean
+                    bodyAdjustmentY = relativeMouse.x * 0.4; // Strong left/right body turn
+                    bodyAdjustmentX = relativeMouse.y * 0.2; // Moderate forward/back body lean
                 }
                 
                 // Apply original rotation with subtle body adjustments
@@ -326,7 +326,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
                         y: mouse.y - mascotScreenPos.y
                     };
                     
-                    const targetRotationY = relativeMouse.x * 0.6; // Reduced head turn since body is doing most of the work
+                    const targetRotationY = relativeMouse.x * 0.8; // Reduced head turn since body is doing most of the work
                     
                     // Calculate smooth base angle offset based on mascot's Y position
                     // Map Y position to head angle: higher Y = look down, lower Y = look up
@@ -335,11 +335,11 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
                     
                     if (yPosition >= 0.5) {
                         // High position: look down more
-                        baseAngleOffset = -0.7;
+                        baseAngleOffset = -0.1;
                     } else if (yPosition >= 0) {
                         // Neutral-high position: look slightly down
-                        baseAngleOffset = -0.4;
-                    } else if (yPosition >= -1) {
+                        baseAngleOffset = 0.2;
+                    } else if (yPosition >= 1) {
                         // Neutral-low position: look straight/slightly up
                         baseAngleOffset = -0.1;
                     } else if (yPosition >= -1.5) {
@@ -354,7 +354,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
                     
                     // Apply head rotation every frame to override animation
                     // More aggressive interpolation for Y (left/right) to ensure it follows mouse
-                    headBone.rotation.y += (targetRotationY - headBone.rotation.y) * 0.9;
+                    headBone.rotation.y += (targetRotationY - headBone.rotation.y) * 0.8;
                     headBone.rotation.x += (targetRotationX - headBone.rotation.x) * 0.8;
                     
                     // Debug: Log head rotation values occasionally

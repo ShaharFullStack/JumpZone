@@ -66,6 +66,20 @@
             margin-left: 5rem;
         }
 
+         h2 {
+            color: #FF6135;
+            /* Custom color for testimonials */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 1), 0 0 10px rgba(255, 97, 53, 0.5);
+            font-weight: bold;
+
+        }
+        h1 {
+            color: #FF6135;
+            /* Custom color for hero */
+            text-shadow: 2px 2px 4px rgb(226, 214, 214), 0 0 10px rgb(255, 255, 255);
+            font-weight: bold;
+        }
+
         /* Mobile optimizations for sections container */
         @media (max-width: 768px) {
             #sections-container {

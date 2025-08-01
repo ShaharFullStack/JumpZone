@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jump Zone - אימוני קפיצה בחבל מקצועיים</title>
+    <link rel="icon" type="image/jpeg" href="logo.jpg">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .whatsapp-float {
+            position: fixed;
+            bottom: 15px;
+            left: 10px;
+            right: auto;
+            background-color: #25D366;
+            color: #fff;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            z-index: 9999;
+            text-decoration: none;
+            border: 3px solid #fff;
+            padding: 0;
+            outline: none;
+        }
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            background-color: #128C7E;
+            color: #fff;
+            border-color: #fff;
+        }
+        .whatsapp-float i {
+            margin: 0;
+            padding: 0;
+            line-height: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Splash Screen -->
+    <div id="splash" style="position:fixed;z-index:99999;top:0;left:0;width:100vw;height:100vh;background:#18191a;display:flex;align-items:center;justify-content:center;transition:opacity 0.7s;">
+        <img src="logo.jpg" alt="Jump Zone לוגו" style="width:150px;height:150px;border-radius:50%;box-shadow:0 4px 32px #25D366;object-fit:contain;background:#fff;">
+    </div>
+    <header>
+        <nav>
+            <div class="logo">
+                <span>Jump Zone</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#hero">ראשי</a></li>
+                <li><a href="#about-business">סיפור אישי</a></li>
+                <li><a href="#about">פילוסופיה</a></li>
+                <li><a href="#about-trainer">מי אני</a></li>
+                <li><a href="#why-choose">למה לבחור?</a></li>
+                <li><a href="#process">תהליך</a></li>
+                <li><a href="#services">שירותים</a></li>
+                <li><a href="#testimonials">המלצות</a></li>
+                <li><a href="#pricing">מחירון</a></li>
+                <li><a href="#faq">שאלות נפוצות</a></li>
+                <li><a href="#contact">צור קשר</a></li>
+            </ul>
+            <a href="#contact" class="cta-button nav-cta small-cta">להצטרפות מהירה</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero" id="hero">
+            <div class="hero-content">
+                <img src="logo.jpg" alt="לוגו Jump Zone - קפיצה בחבל" class="hero-logo">
+                <h1>קפיצה אחת יכולה לשנות את כל הסיפור שלך</h1>
+                <p>שפר את הכושר, תעצים את הנפש, ותתחבר לעצמך – דרך קפיצה בחבל</p>
+                <div class="hero-features">
+                    <p>🔹 אימונים מקצועיים</p>
+                    <p>🔹 תוצאות מהירות</p>
+                    <p>🔹 חוויה מלאה בעוצמה, קצב ונשמה</p>
+                </div>
+                <p class="hero-tagline">Power, <span style="color: #e74c3c;">Rhythm</span>, Soul</p>
+                <a href="#contact" class="cta-button">שיעור ניסיון – בלי התחייבות</a>
+            </div>
+        </section>
+
+        <section class="about-business" id="about-business">
+            <div class="about-business-content">
+                <h2>קפיצה שהצילה חיים – סיפור אישי</h2>
+                <p>אני המאמן היחיד בארץ (ואולי בעולם) שבנה את חייו מחדש עם עין אחת, חבל קפיצה אחד ולב ענק.</p>
+                <p>ב-2018 חיי נעצרו. אובחנתי עם גלאוקומה קשה, שהובילה לכאבים בלתי נסבלים, לילות בלי שינה, ודיכאון עמוק. איבדתי את הראייה בעין שמאל – אבל מה שכאב יותר היה לאבד את הזהות שלי, את האנרגיה, את הביטחון, את עצמי.</p>
+                <p>הייתי במקום חשוך. מנותק מהעולם. עם חרדה חברתית, פחדים, ואפס תקווה. אבל דווקא שם – ברגע הכי נמוך – גיליתי משהו פשוט: חבל קפיצה.</p>
+                <p>הוא לא היה רק כלי לאימון. הוא היה קצב. עוגן. דרך לנשום מחדש. דרכו בניתי את עצמי מהיסוד – גוף, נפש, ולב.</p>
+            </div>
+        </section>
+
+        <section id="about" class="about">
+            <h2>פילוסופיית הקפיצה – החיים דרך חבל אחד</h2>
+            <p class="about-desc">קפיצה בחבל היא השתקפות של החיים עצמם.<br>כל קפיצה היא בחירה:<br>– לבחור לנוע גם כשכואב.<br>– לטעות, להסתבך, ואז לחזור לקצב.<br>– להתאזן, לנשום, לקפוץ שוב – גם אחרי נפילה.</p>
+            <p class="about-desc">החבל הזה לימד אותי שאם אני יכול לשלוט בתנועה – אני יכול לשלוט בסיפור שלי. שאם אני מצליח לסנכרן בין נשימה, קצב ותודעה – אני יכול לנצח גם את הפחדים הכי עמוקים שלי.</p>
+            <p class="about-desc">זו לא רק שיטה לשיפור כושר – זו דרך להתחבר לעצמך. דרך לפרוץ גבולות פנימיים, לשחרר מתחים, לבנות חוסן מנטלי ולהיזכר בכוח שיש בך.</p>
+        </section>
+
+        <section class="about-trainer" id="about-trainer">
+            <div class="about-business-content">
+                <h2>מי אני?</h2>
+                <p>אני נתנאל – מאמן מוסמך, יוצר תוכן, ולוחם אמיתי.</p>
+                <p>אחרי מסע של שיקום פיזי ורגשי – בחרתי להפוך את הסבל שלי לשליחות.<br>כיום אני עוזר לאחרים למצוא את הדרך שלהם – דרך קפיצה אחת, שיכולה לשנות חיים.</p>
+                <p>החזון שלי: להפוך את קפיצת החבל לספורט מיינסטרימי בישראל, אבל גם לכלי טיפולי, חברתי וקהילתי.</p>
+            </div>
+        </section>
+
+        <section class="why-choose" id="why-choose">
+            <div class="about-business-content">
+                <h2>למה לבחור ב-Jump Zone?</h2>
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    <li>✅ אימונים קבוצתיים ואישיים בגישה בגובה העיניים</li>
+                    <li>✅ חיבור בין תנועה, מוזיקה ונפש</li>
+                    <li>✅ קהילה בטוחה ומכילה</li>
+                    <li>✅ סדנאות השראה, העצמה וחוסן מנטלי</li>
+                    <li>✅ מקום אמיתי לצמיחה – גם פיזית וגם רגשית</li>
+                    <li>✅ אימונים מותאמים לכל גיל ורמה – ילדים, נוער, מבוגרים וספורטאים</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="process" id="process">
+            <div class="about-business-content">
+                <h2>תהליך = תוצאה</h2>
+                <p>Jump Zone נבנה מתוך כאב – וצמח לכוח.<br>זה לא עוד חוג ספורט – זו שיטה שמבוססת על אמת:</p>
+                <p>💥 להרים את עצמך כשנשברת<br>💥 לנשום גם כשכואב<br>💥 למצוא את הקצב האישי שלך – ולחיות אותו</p>
+            </div>
+        </section>
+
+        <section id="services" class="services">
+            <div class="services-wrapper">
+                <h2>השירותים שלנו</h2>
+                <div class="service-categories">
+                    <div class="service-category">
+                        <h3>🌀 אימונים</h3>
+                        <ul>
+                            <li>אימוני קפיצה אישיים וקבוצתיים</li>
+                            <li>אימוני אונליין מהבית</li>
+                        </ul>
+                    </div>
+                    <div class="service-category">
+                        <h3>🔥 העצמה אישית</h3>
+                        <ul>
+                            <li>סדנאות חוסן מנטלי, שחרור מתחים וביטוי עצמי</li>
+                            <li>ליווי למי שעובר שיקום, קושי נפשי או גופני</li>
+                            <li>בניית ביטחון עצמי וקואורדינציה – צעד אחר צעד</li>
+                        </ul>
+                    </div>
+                    <div class="service-category">
+                        <h3>❤ קהילה</h3>
+                        <ul>
+                            <li>מפגשים, אירועים ופעילויות חברתיות</li>
+                            <li>מקום בטוח לשאול, לטעות, לצמוח</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="services-cta">
+                    <a href="#contact" class="cta-button">אני רוצה להתחיל עכשיו</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="testimonials" id="testimonials">
+            <h2>לקוחות מספרים</h2>
+            <div class="testimonials-list">
+                <div class="testimonial">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="יוסי, לקוח מרוצה מ-Jump Zone" class="testimonial-img">
+                    <p>"לא האמנתי כמה קפיצה בחבל יכולה לשנות לי את הגוף – והלב. מקום מרגש באמת."</p>
+                    <span class="testimonial-name">יוסי, תל אביב</span>
+                </div>
+                <div class="testimonial">
+                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="נועה, לקוחה מרוצה מ-Jump Zone" class="testimonial-img">
+                    <p>"לא רק חיטוב או סיבולת – זה מקום שמרגיש כמו בית לנפש. תודה!"</p>
+                    <span class="testimonial-name">נועה, ראשון לציון</span>
+                </div>
+                <div class="testimonial">
+                    <img src="https://randomuser.me/api/portraits/men/65.jpg" alt="עידו, לקוח מרוצה מ-Jump Zone" class="testimonial-img">
+                    <p>"התחלתי בלי כושר ועם הרבה פחד – והיום אני קופץ עם ביטחון שלא חשבתי שאמצא אי פעם."</p>
+                    <span class="testimonial-name">עידו, חיפה</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="pricing" class="pricing">
+            <h2>מחירון Jump Zone</h2>
+            <div class="pricing-table-wrapper">
+                <table class="pricing-table">
+                    <thead>
+                        <tr>
+                            <th>סוג אימון</th>
+                            <th>משך</th>
+                            <th>מחיר לאימון בודד</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>אימון אישי</td>
+                            <td>45-60 דק'</td>
+                            <td>150-250 ₪</td>
+                        </tr>
+                        <tr>
+                            <td>אימון קבוצתי (נוער)</td>
+                            <td>60-90 דק'</td>
+                            <td>65 ₪</td>
+                        </tr>
+                        <tr>
+                            <td>אימון קבוצתי (מבוגרים)</td>
+                            <td>60-90 דק'</td>
+                            <td>58 ₪</td>
+                        </tr>
+                        <tr>
+                            <td>שיעור אונליין/זום</td>
+                            <td>60 דק'</td>
+                            <td>100-150 ₪</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="pricing-notes">
+                    <ul>
+                        <li>כל המחירים לאימון בודד. ניתן לרכוש חבילות מוזלות – לפרטים צרו קשר.</li>
+                        <li>כל האימונים כוללים ליווי אישי, תוכנית מותאמת וקהילה תומכת.</li>
+                        <li>מחיר שיעור ניסיון: בתיאום מראש.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="faq" id="faq">
+            <h2>שאלות נפוצות</h2>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <h3>אני לא בכושר בכלל – זה יתאים לי?</h3>
+                    <p>ברור. כל אחד מתחיל בדיוק מהמקום שבו הוא נמצא.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>אני עובר תקופה קשה רגשית – זה יכול לעזור לי?</h3>
+                    <p>כן. זו בדיוק הגישה שלנו – לחזק דרך תנועה, נשימה וקשר אנושי.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>זה מתאים גם לילדים או נוער?</h3>
+                    <p>בהחלט. יש קבוצות מותאמות לפי גיל ורמה.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>יש התחייבות?</h3>
+                    <p>לא. אתה קופץ – כי אתה בוחר בזה. כל פעם מחדש.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="final-cta" id="final-cta">
+            <h2>מוכן לעשות את הקפיצה?</h2>
+            <p>אם אתה מחפש לא רק אימון – אלא דרך חדשה לחיות, לנשום ולנצח את עצמך – Jump Zone זה המקום בשבילך.</p>
+            <a href="#contact" class="cta-button">שיעור ניסיון – בלי התחייבות</a>
+        </section>
+
+        <section id="contact" class="contact">
+            <h2>צור קשר</h2>
+            <form id="contact-form">
+                <div class="form-group">
+                    <input type="text" id="name" name="name" required placeholder="שם מלא">
+                </div>
+                <div class="form-group">
+                    <input type="email" id="email" name="email" required placeholder="אימייל">
+                </div>
+                <div class="form-group">
+                    <input type="tel" id="phone" name="phone" required placeholder="טלפון">
+                </div>
+                <div class="form-group">
+                    <textarea id="message" name="message" required placeholder="הודעה"></textarea>
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" id="marketingConsent" name="marketingConsent" required>
+                    <label for="marketingConsent" style="font-size:1em;display:inline;cursor:pointer;">אני מאשר/ת קבלת דיוור ועדכונים מ-Jump Zone</label>
+                </div>
+                <button type="submit" class="cta-button" id="submitContactBtn">שלח</button>
+            </form>
+            <div id="formStatusMsg" style="margin-top:18px;font-size:1.1em;min-height:32px;"></div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="social-links">
+                <a href="https://www.tiktok.com/@netanelmelker1?_t=ZS-8wxG2vfVa24&_r=1" target="_blank" rel="noopener" aria-label="טיקטוק - Jump Zone"><i class="fab fa-tiktok"></i></a>
+                <a href="https://www.instagram.com/netanel_melker_jump_rope/?igsh=dW9sM3lqaGs1ZWls&utm_source=qr" target="_blank" rel="noopener" aria-label="אינסטגרם - Jump Zone"><i class="fab fa-instagram"></i></a>
+                <a href="https://wa.me/972508447575" aria-label="וואטסאפ - Jump Zone"><i class="fab fa-whatsapp"></i></a>
+            </div>
+            <p>&copy; 2025 Jump Zone. כל הזכויות שמורות.</p>
+            <a href="accessibility.html" title="הצהרת נגישות">הצהרת נגישות</a>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+
+    <!-- UserWay Accessibility Widget -->
+    <script>
+    (function(d){
+      var s = d.createElement("script");
+      s.setAttribute("data-account", "1Qw1Qw1Qw1"); // החלף ל-ID שלך אם תרצה
+      s.src="https://cdn.userway.org/widget.js";
+      s.setAttribute("data-position", "3"); // 3 = bottom left
+      (d.body || d.head).appendChild(s);
+    })(document)
+    </script>
+    <!-- /UserWay Accessibility Widget -->
+
+    <!-- כפתור וואטסאפ עגול צף -->
+    <a href="https://wa.me/972508447575" class="whatsapp-float" target="_blank" rel="noopener" aria-label="צ'אט בוואטסאפ">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script>
+    // Splash screen hide logic
+    window.addEventListener('DOMContentLoaded', function() {
+        setTimeout(function() {
+            const splash = document.getElementById('splash');
+            splash.style.opacity = 0;
+            setTimeout(() => splash.style.display = 'none', 700);
+        }, 2000);
+    });
+    </script>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+    <script>
+    // הגדרות Firebase שלך
+    const firebaseConfig = {
+        apiKey: "AIzaSyDwzjwerdGWv9_IVvdC6OERZwTBvgY9AQk",
+        authDomain: "jump-zone-netanel.firebaseapp.com",
+        projectId: "jump-zone-netanel",
+        storageBucket: "jump-zone-netanel.firebasestorage.app",
+        messagingSenderId: "336556043614",
+        appId: "1:336556043614:web:101a08a25c3fa822b4f3cf"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    document.addEventListener('DOMContentLoaded', function() {
+        const contactForm = document.getElementById('contact-form');
+        if (!contactForm) return;
+
+        // הסר כל האזנה קודמת (למקרה של טעינה כפולה)
+        contactForm.onsubmit = null;
+
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const submitBtn = document.getElementById('submitContactBtn');
+            const statusMsg = document.getElementById('formStatusMsg');
+            if (submitBtn.disabled) return; // מניעת שליחה כפולה
+
+            // ולידציה
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const message = document.getElementById('message').value.trim();
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const phonePattern = /^([+]?\d{8,15})$/;
+            if (name.length < 2) {
+                statusMsg.textContent = 'נא להזין שם מלא (לפחות 2 תווים).';
+                statusMsg.style.color = '#ff4444';
+                return;
+            }
+            if (!emailPattern.test(email)) {
+                statusMsg.textContent = 'נא להזין כתובת אימייל תקינה.';
+                statusMsg.style.color = '#ff4444';
+                return;
+            }
+            if (!phonePattern.test(phone)) {
+                statusMsg.textContent = 'נא להזין מספר טלפון תקין (8-15 ספרות, אפשר עם +).';
+                statusMsg.style.color = '#ff4444';
+                return;
+            }
+            if (message.length < 2) {
+                statusMsg.textContent = 'נא להזין הודעה.';
+                statusMsg.style.color = '#ff4444';
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'נשלח...';
+            statusMsg.textContent = '';
+            statusMsg.style.color = '';
+
+            setTimeout(() => {
+                const formData = {
+                    name,
+                    email,
+                    phone,
+                    message,
+                    marketingConsent: document.getElementById('marketingConsent').checked,
+                    created: firebase.firestore.FieldValue.serverTimestamp()
+                };
+                db.collection('leads').add(formData).then(() => {
+                    contactForm.reset();
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'שלח';
+                    statusMsg.textContent = 'תודה על פנייתך! נחזור אליך בהקדם.';
+                    statusMsg.style.color = '#25D366';
+                    setTimeout(() => { statusMsg.textContent = ''; }, 7000);
+                }).catch(() => {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'שלח';
+                    statusMsg.textContent = 'אירעה שגיאה בשליחת הפנייה';
+                    statusMsg.style.color = '#ff4444';
+                    setTimeout(() => { statusMsg.textContent = ''; }, 7000);
+                });
+            }, 100);
+        });
+    });
+    </script>
+
+    <!-- חץ גלילה למעלה -->
+    <div id="scrollToTopBtn" title="גלילה למעלה" style="display:none;position:fixed;bottom:50%;left:8px;z-index:9999;background:transparent;color:#e74c3c;border:none;border-radius:0;padding:0.2em 0.3em;box-shadow:none;font-size:2.1em;cursor:pointer;align-items:center;justify-content:center;direction:rtl;transform:translateY(50%);">
+        <i class="fas fa-arrow-up" style="font-size:1em;font-weight:bold;"></i>
+    </div>
+
+    <script>
+    // חץ גלילה למעלה
+    const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+    window.addEventListener('scroll', function() {
+        if (window.scrollY > 350) {
+            scrollToTopBtn.style.display = 'flex';
+        } else {
+            scrollToTopBtn.style.display = 'none';
+        }
+    });
+    scrollToTopBtn.addEventListener('click', function() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+    </script>
+</body>
+</html> 
