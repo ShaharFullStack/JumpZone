@@ -7,7 +7,11 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
         const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg-canvas'), alpha: true, antialias: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setClearColor(0x000000, 0);
-
+        
+        // Allow clicks to pass through canvas to UI elements beneath
+        const canvas = document.getElementById('bg-canvas');
+        canvas.style.pointerEvents = 'none';
+        
         camera.position.z = 2;
 
         // Enhanced lighting for the mascot
@@ -632,3 +636,54 @@ document.querySelectorAll('video').forEach(video => {
 window.toggleHighContrast = toggleHighContrast;
 window.increaseFontSize = increaseFontSize;
 window.decreaseFontSize = decreaseFontSize;
+
+// Accessibility menu functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const accessibilityBtn = document.getElementById('accessibility-btn');
+    const accessibilityPanel = document.getElementById('accessibility-panel');
+    const closeAccessibilityBtn = document.getElementById('close-accessibility');
+
+    if (accessibilityBtn && accessibilityPanel) {
+        // Open/close accessibility panel
+        accessibilityBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            accessibilityPanel.classList.toggle('active');
+        });
+
+        // Close panel with close button
+        if (closeAccessibilityBtn) {
+            closeAccessibilityBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                accessibilityPanel.classList.remove('active');
+            });
+        }
+
+        // Close panel when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!accessibilityPanel.contains(e.target) && !accessibilityBtn.contains(e.target)) {
+                accessibilityPanel.classList.remove('active');
+            }
+        });
+
+        // Prevent panel from closing when clicking inside it
+        accessibilityPanel.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+
+        // Keyboard support for accessibility menu
+        accessibilityBtn.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                accessibilityPanel.classList.toggle('active');
+            }
+        });
+
+        // Close with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && accessibilityPanel.classList.contains('active')) {
+                accessibilityPanel.classList.remove('active');
+                accessibilityBtn.focus(); // Return focus to button
+            }
+        });
+    }
+});
