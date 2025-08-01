@@ -159,23 +159,158 @@
     
     <!-- Three.js CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- GLTFLoader for loading 3D models -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
 
     <!-- Main Application Logic -->
     <script type="module">
         // --- Simple Three.js Background Setup ---
         const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 2000);
         const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg-canvas'), alpha: true, antialias: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setClearColor(0x000000, 0);
 
-        camera.position.z = 5;
+        camera.position.z = 3;
 
-        // Simple ambient lighting
-        scene.add(new THREE.AmbientLight(0x404040, 0.5));
+        // Enhanced lighting for the mascot
+        const ambientLight = new THREE.AmbientLight(0x404040, 1.2);
+        scene.add(ambientLight);
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+        directionalLight.position.set(5, 5, 5);
+        scene.add(directionalLight);
+        
+        // Spotlight focused on the mascot
+        const spotlight = new THREE.SpotLight(0xffffff, 2);
+        spotlight.position.set(2, 4, 2);
+        spotlight.target.position.set(0, 1, 0);
+        spotlight.angle = Math.PI / 6; // 30 degree cone
+        spotlight.penumbra = 0.3; // Soft edges
+        spotlight.decay = 2;
+        spotlight.distance = 10;
+        scene.add(spotlight);
+        scene.add(spotlight.target);
+
+        // Variables for mascot animation
+        let mascot = null;
+        let mixer = null;
+        const clock = new THREE.Clock();
+        let animationActions = [];
+        let animationMap = {};
+        let currentAnimationIndex = 0;
+        
+        // Mouse tracking variables
+        let mouse = new THREE.Vector2();
+        let isHovering = false;
+        let raycaster = new THREE.Raycaster();
+
+        // Load the animated mascot
+        const loader = new THREE.GLTFLoader();
+        loader.load('./assets/nati.glb', (gltf) => {
+            mascot = gltf.scene;
+            
+            // Scale and position the mascot (top-right corner)
+            mascot.scale.set(2, 2, 2);
+            mascot.position.set(0, -2.6, -2);
+            mascot.rotation.y = Math.PI * 1.4; // Rotate to face the camera
+            
+            // Add the mascot to the scene
+            scene.add(mascot);
+            
+            // Set up animation mixer and store all actions
+            if (gltf.animations && gltf.animations.length > 0) {
+                mixer = new THREE.AnimationMixer(mascot);
+                
+                // Create a map of animation names to actions
+                gltf.animations.forEach((clip) => {
+                    const action = mixer.clipAction(clip);
+                    action.setLoop(THREE.LoopRepeat);
+                    animationMap[clip.name] = action;
+                    animationActions.push(action);
+                });
+                
+                console.log('Available animations:', Object.keys(animationMap));
+                
+                // Play NlaTrack.003 as default (mouse following animation)
+                const followAnim = animationMap['NlaTrack.003'] || animationActions[0];
+                if (followAnim) {
+                    followAnim.play();
+                    currentAnimationIndex = animationActions.indexOf(followAnim);
+                }
+            }
+        }, undefined, (error) => {
+            console.error('Error loading mascot:', error);
+        });
+
+        // Function to play specific animation
+        function playAnimation(animationName) {
+            if (!Object.keys(animationMap).length) return;
+            
+            const targetAction = animationMap[animationName];
+            if (!targetAction) {
+                console.warn(`Animation ${animationName} not found`);
+                return;
+            }
+            
+            const newAnimationIndex = animationActions.indexOf(targetAction);
+            
+            if (newAnimationIndex !== currentAnimationIndex && newAnimationIndex !== -1) {
+                // Fade out current animation
+                if (animationActions[currentAnimationIndex]) {
+                    animationActions[currentAnimationIndex].fadeOut(0.3);
+                }
+                
+                // Fade in new animation
+                targetAction.reset().fadeIn(0.3).play();
+                currentAnimationIndex = newAnimationIndex;
+            }
+        }
+        
+        // Mouse tracking and hover detection
+        function onMouseMove(event) {
+            // Update mouse position
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+            
+            // Convert mouse position to world coordinates for mascot following
+            if (mascot) {
+                const targetX = mouse.x * 3; // Scale movement
+                const targetY = mouse.y * 2 + 1; // Offset for better positioning
+                
+                // Smooth movement towards mouse
+                mascot.position.x += (targetX - mascot.position.x) * 0.05;
+                mascot.position.y += (targetY - mascot.position.y) * 0.05;
+            }
+            
+            // Check for hover using raycaster
+            if (mascot) {
+                raycaster.setFromCamera(mouse, camera);
+                const intersects = raycaster.intersectObject(mascot, true);
+                
+                const wasHovering = isHovering;
+                isHovering = intersects.length > 0;
+                
+                // Handle hover state changes
+                if (isHovering && !wasHovering) {
+                    // Mouse entered - play hover animation
+                    playAnimation('NlaTrack.008');
+                } else if (!isHovering && wasHovering) {
+                    // Mouse left - return to follow animation
+                    playAnimation('NlaTrack.003');
+                }
+            }
+        }
 
         function animate() {
             requestAnimationFrame(animate);
+            
+            // Update animation mixer
+            if (mixer) {
+                const delta = clock.getDelta();
+                mixer.update(delta);
+            }
+            
+            
             renderer.render(scene, camera);
         }
         animate();
@@ -287,6 +422,9 @@
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         }
 
+        // Add mouse event listener
+        window.addEventListener('mousemove', onMouseMove);
+        
         // Initial setup
         updateNavDots();
     </script>
