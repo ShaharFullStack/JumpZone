@@ -26,6 +26,12 @@ This is a Hebrew RTL (right-to-left) landing page for "Jump Zone" - a jump rope 
 
 **Section-Based Navigation**: Uses `#sections-container` with CSS transforms to create "jump" scrolling between full-screen sections. Each section is 100vh height.
 
+**3D Mascot Integration**: Interactive 3D mascot (`assets/nati.glb`) with head-only mouse tracking:
+- Positioned at (0, 0.35, -2) with 1.5x scale
+- Static body with head bone rotation following mouse cursor
+- Enhanced lighting setup with ambient, directional, and spotlight
+- Automatic head bone detection by name patterns or skeleton hierarchy
+
 **Mobile-First Responsive**: Extensive CSS media queries optimize for mobile devices with specific handling for:
 - Dynamic viewport height (`100dvh`)
 - Safe area insets for notched devices
@@ -44,7 +50,14 @@ This is a static website with no build process. To develop:
 
 ## Key Components
 
-### Scroll System (`index.html:179-287`)
+### 3D Mascot System (`index.html:166-271`)
+- GLTFLoader loads `assets/nati.glb` model
+- Head bone detection via traversal and name matching
+- Mouse tracking with smooth head rotation interpolation
+- No animations - purely static model with dynamic head movement
+- Optimized lighting with ambient, directional, and spotlight setup
+
+### Scroll System (`index.html:273+`)
 - Wheel, touch, and keyboard navigation between sections
 - Debounced scrolling to prevent rapid section jumping
 - Navigation dots with active state management
@@ -85,6 +98,18 @@ The site heavily prioritizes mobile experience:
 ## Performance Considerations
 
 - Three.js pixel ratio limited to 2x on mobile for performance
+- 3D mascot uses minimal geometry and no complex animations for optimal performance
+- Head-only tracking reduces computational overhead compared to full-body animation
 - CSS animations use `will-change` and `backface-visibility` optimizations
 - Videos use `playsinline` attribute for iOS compatibility
 - Images use optimized loading and rendering hints for high-DPI displays
+
+## 3D Model Specifications
+
+### Current GLB Implementation
+- **Model**: `assets/nati.glb` - Jump rope fitness mascot
+- **Position**: (0, 0.35, -2) - Centered and slightly elevated
+- **Scale**: 1.5x uniform scaling
+- **Rotation**: Base Y-rotation of Math.PI * 1.45 (facing camera)
+- **Interaction**: Head bone follows mouse cursor with smooth interpolation
+- **Lighting**: Multi-layer lighting (ambient 7.0, directional 1.0, spotlight 2.0)
