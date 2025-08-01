@@ -12,7 +12,16 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;900&display=swap" rel="stylesheet">
-
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.178.0/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.178.0/examples/jsm/"
+        }
+    }
+    </script>
+    <script defer type="module" src="./app.js"></script>
+    
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -24,7 +33,7 @@
     <div id="sections-container">
         <!-- Hero Section -->
         <section class="section relative text-center text-white p-4 bg-black/50">
-            <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover z-[-1]" poster="./assets/poster1.jpg">
+            <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover z-[-1]">
                 <source src="./assets/Hero.mp4" type="video/mp4" />
             </video>
             <div class="z-10 flex flex-col items-center">
@@ -33,7 +42,7 @@
                     קפיצה אחת יכולה לשנות את כל הסיפור שלך
                 </h1>
                 <p class="text-xl md:text-2xl max-w-3xl mb-8" style="text-shadow: 1px 1px 4px rgba(0,0,0,0.7)">
-                    משפר את הכושר, מעצים את הנפש ומתחבר לעצמך
+                    משפרת את הכושר, מעצימה את הנפש ומחברת אותך לעצמך
                 </p>
                 <a href="https://wa.me/972508447575?text=אני%20רוצה%20לקבוע%20שיעור%20ניסיון!" target="_blank" class="px-8 py-4 bg-indigo-600 text-white font-bold text-lg rounded-lg shadow-lg hover:bg-indigo-700 transition-all duration-300 transform hover:scale-105">
                     אני רוצה לקבוע שיעור ניסיון!
@@ -100,9 +109,9 @@
             <div class="max-w-6xl text-center">
                 <h2 class="text-4xl md:text-5xl font-bold mb-12 text-pink-400">השירותים שלנו</h2>
                 <div class="grid md:grid-cols-3 gap-8">
-                    <div class="bg-gray-900 p-8 rounded-2xl shadow-lg flex flex-col items-center"><div class="text-5xl mb-4"></div><h3 class="text-2xl font-bold mb-4">אימונים</h3><ul class="text-gray-300 space-y-2"><li>אימוני קפיצה אישיים וקבוצתיים</li><li>אימוני אונליין מהבית</li></ul></div>
-                    <div class="bg-gray-900 p-8 rounded-2xl shadow-lg flex flex-col items-center"><div class="text-5xl mb-4"></div><h3 class="text-2xl font-bold mb-4">העצמה אישית</h3><ul class="text-gray-300 space-y-2"><li>סדנאות חוסן מנטלי, שחרור מתחים וביטוי עצמי</li><li>ליווי למי שעובר שיקום, קושי נפשי או גופני</li><li>בניית ביטחון עצמי וקואורדינציה צעד אחר צעד</li></ul></div>
-                    <div class="bg-gray-900 p-8 rounded-2xl shadow-lg flex flex-col items-center"><div class="text-5xl mb-4"></div><h3 class="text-2xl font-bold mb-4">קהילה</h3><ul class="text-gray-300 space-y-2"><li>מפגשים, אירועים ופעילויות חברתיות</li><li>מקום בטוח לשאול, לטעות, לצמוח</li></ul></div>
+                    <div class="backdrop-blur-sm bg-black/40 p-8 rounded-2xl shadow-lg flex flex-col items-center"><div class="text-5xl mb-4"></div><h3 class="text-2xl font-bold mb-4">אימונים</h3><ul class="text-gray-300 space-y-2"><li>אימוני קפיצה אישיים וקבוצתיים</li><li>אימוני אונליין מהבית</li></ul></div>
+                    <div class="backdrop-blur-sm bg-black/40 p-8 rounded-2xl shadow-lg flex flex-col items-center"><div class="text-5xl mb-4"></div><h3 class="text-2xl font-bold mb-4">העצמה אישית</h3><ul class="text-gray-300 space-y-2"><li>סדנאות חוסן מנטלי, שחרור מתחים וביטוי עצמי</li><li>ליווי למי שעובר שיקום, קושי נפשי או גופני</li><li>בניית ביטחון עצמי וקואורדינציה צעד אחר צעד</li></ul></div>
+                    <div class="backdrop-blur-sm bg-black/40 p-8 rounded-2xl shadow-lg flex flex-col items-center"><div class="text-5xl mb-4"></div><h3 class="text-2xl font-bold mb-4">קהילה</h3><ul class="text-gray-300 space-y-2"><li>מפגשים, אירועים ופעילויות חברתיות</li><li>מקום בטוח לשאול, לטעות, לצמוח</li></ul></div>
                 </div>
             </div>
         </section>
@@ -157,321 +166,6 @@
     <!-- Navigation Dots -->
     <div id="nav-dots"></div>
     
-    <!-- Three.js CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <!-- GLTFLoader for loading 3D models -->
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
-
     <!-- Main Application Logic -->
-    <script type="module">
-        // --- Simple Three.js Background Setup ---
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 2000);
-        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg-canvas'), alpha: true, antialias: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setClearColor(0x000000, 0);
-
-        camera.position.z = 2;
-
-        // Enhanced lighting for the mascot
-        const ambientLight = new THREE.AmbientLight(0x404040, 7);
-        scene.add(ambientLight);
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-        directionalLight.position.set(0, 0.5, 0);
-        scene.add(directionalLight);
-        
-        // Spotlight focused on the mascot
-        const spotlight = new THREE.SpotLight(0xffffff, 2);
-        spotlight.position.set(2, 4, 2);
-        spotlight.target.position.set(0, 1, 0);
-        spotlight.angle = Math.PI / 6; // 30 degree cone
-        spotlight.penumbra = 0.3; // Soft edges
-        spotlight.decay = 2;
-        spotlight.distance = 10;
-        scene.add(spotlight);
-        scene.add(spotlight.target);
-
-        // Variables for mascot
-        let mascot = null;
-        let headBone = null;
-        let mixer = null;
-        let scrollAnimation = null;
-        const clock = new THREE.Clock();
-        
-        // Mouse tracking variables
-        let mouse = new THREE.Vector2();
-        
-        // Mascot positions for each section
-        const mascotPositions = [
-            { x: 0, y: 0.35, z: -2 },    // Section 0: Top right
-            { x: 3, y: 0, z: -2 },   // Section 1: Top left  
-            { x: 2, y: -1, z: -2 },   // Section 2: Bottom right
-            { x: -2, y: -1, z: -2 }   // Section 3: Bottom left
-        ];
-        let currentMascotSection = 0;
-
-        // Load the animated mascot
-        const loader = new THREE.GLTFLoader();
-        loader.load('./assets/nati.glb', (gltf) => {
-            mascot = gltf.scene;
-            
-            // Scale and position the mascot (start at top-right)
-            mascot.scale.set(1.5, 1.5, 1.5);
-            mascot.position.set(mascotPositions[0].x, mascotPositions[0].y, mascotPositions[0].z);
-            mascot.rotation.y = Math.PI * 1.45; // Rotate to face the camera
-            
-            // Add the mascot to the scene
-            scene.add(mascot);
-            
-            // Set up animation mixer for scroll animation
-            if (gltf.animations && gltf.animations.length > 0) {
-                mixer = new THREE.AnimationMixer(mascot);
-                
-                // Find NlaTrack.001 animation
-                const scrollAnimClip = gltf.animations.find(clip => clip.name === 'NlaTrack.003');
-                if (scrollAnimClip) {
-                    scrollAnimation = mixer.clipAction(scrollAnimClip);
-                    scrollAnimation.setLoop(THREE.LoopOnce);
-                    scrollAnimation.clampWhenFinished = true;
-                    console.log('Found scroll animation: NlaTrack.003');
-                } else {
-                    console.log('NlaTrack.003 not found, available animations:', gltf.animations.map(a => a.name));
-                }
-            }
-            
-            // Find the head bone for targeted movement
-            mascot.traverse((child) => {
-                if (child.isBone || child.isMesh) {
-                    console.log('Found bone/mesh:', child.name, child.type);
-                    // Look for head-related names (common naming patterns)
-                    if (child.name && (
-                        child.name.toLowerCase().includes('head') ||
-                        child.name.toLowerCase().includes('skull') ||
-                        child.name.toLowerCase().includes('cranium') ||
-                        child.name.includes('Head') ||
-                        child.name.includes('head')
-                    )) {
-                        headBone = child;
-                        console.log('Found head bone:', child.name);
-                    }
-                }
-            });
-            
-            // If no head bone found by name, try to find it by hierarchy (usually near top)
-            if (!headBone && mascot.children.length > 0) {
-                // Look for skeleton first
-                mascot.traverse((child) => {
-                    if (child.isSkinnedMesh && child.skeleton) {
-                        const bones = child.skeleton.bones;
-                        console.log('Available bones:', bones.map(b => b.name));
-                        // Try to find head bone by common names or position in hierarchy
-                        headBone = bones.find(bone => 
-                            bone.name.toLowerCase().includes('head') ||
-                            bone.name.toLowerCase().includes('skull') ||
-                            bone.name.includes('Head')
-                        ) || bones[bones.length - 1]; // fallback to last bone (often head)
-                        if (headBone) {
-                            console.log('Found head bone in skeleton:', headBone.name);
-                        }
-                    }
-                });
-            }
-        }, undefined, (error) => {
-            console.error('Error loading mascot:', error);
-        });
-
-        // Mouse tracking for head rotation only
-        function onMouseMove(event) {
-            // Update mouse position
-            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-            
-            // Rotate only the head to face mouse position
-            if (headBone) {
-                // Calculate angle to face mouse (more subtle movement for head)
-                const targetRotationY = mouse.x * 1; // Left/right head turn
-                const targetRotationX = mouse.y * 1; // Up/down head tilt (inverted)
-                
-                // Smooth rotation towards mouse
-                headBone.rotation.y += (targetRotationY - headBone.rotation.y) * 1;
-                headBone.rotation.x += (targetRotationX - headBone.rotation.x) * 1;
-            }
-        }
-
-        // Function to move mascot to specific section position
-        function moveMascotToSection(sectionIndex) {
-            if (!mascot || sectionIndex < 0 || sectionIndex >= mascotPositions.length) return;
-            
-            currentMascotSection = sectionIndex;
-            const targetPos = mascotPositions[sectionIndex];
-            
-            // Trigger scroll animation immediately when scroll starts
-            if (scrollAnimation) {
-                scrollAnimation.reset().play();
-            }
-            
-            // Smoothly move to new position with timing that matches CSS transition (0.8s)
-            const startTime = performance.now();
-            const startPos = { 
-                x: mascot.position.x, 
-                y: mascot.position.y, 
-                z: mascot.position.z 
-            };
-            const duration = 800; // Match CSS transition duration (0.8s)
-            
-            const moveAnimation = (currentTime) => {
-                const elapsed = currentTime - startTime;
-                const progress = Math.min(elapsed / duration, 1);
-                
-                // Use cubic-bezier easing to match CSS: cubic-bezier(0.68, -0.55, 0.27, 1.55)
-                const easeProgress = cubicBezier(progress, 0.68, -0.55, 0.27, 1.55);
-                
-                mascot.position.x = startPos.x + (targetPos.x - startPos.x) * easeProgress;
-                mascot.position.y = startPos.y + (targetPos.y - startPos.y) * easeProgress;
-                mascot.position.z = startPos.z + (targetPos.z - startPos.z) * easeProgress;
-                
-                if (progress < 1) {
-                    requestAnimationFrame(moveAnimation);
-                }
-            };
-            
-            requestAnimationFrame(moveAnimation);
-        }
-        
-        // Cubic bezier easing function to match CSS transition
-        function cubicBezier(t, p1x, p1y, p2x, p2y) {
-            // Simplified cubic bezier approximation for animation timing
-            return t * t * (3 - 2 * t); // Fallback to smoothstep if complex bezier is not needed
-        }
-
-        function animate() {
-            requestAnimationFrame(animate);
-            
-            // Update animation mixer for scroll animations
-            if (mixer) {
-                const delta = clock.getDelta();
-                mixer.update(delta);
-            }
-            
-            renderer.render(scene, camera);
-        }
-        animate();
-
-        // --- Scroll and Navigation Logic ---
-        const sectionsContainer = document.getElementById('sections-container');
-        const sections = document.querySelectorAll('.section');
-        const navDotsContainer = document.getElementById('nav-dots');
-        let currentIndex = 0;
-        let isWheeling = false;
-        const totalSections = sections.length;
-
-        // Create navigation dots
-        for (let i = 0; i < totalSections; i++) {
-            const dot = document.createElement('button');
-            dot.setAttribute('aria-label', `Go to section ${i + 1}`);
-            dot.addEventListener('click', () => goToSection(i));
-            navDotsContainer.appendChild(dot);
-        }
-        const navDots = navDotsContainer.querySelectorAll('button');
-
-        function updateNavDots() {
-            navDots.forEach((dot, i) => {
-                if (i === currentIndex) {
-                    dot.classList.add('bg-white');
-                } else {
-                    dot.classList.remove('bg-white');
-                }
-            });
-        }
-
-        function goToSection(index) {
-            if (index < 0 || index >= totalSections) return;
-            currentIndex = index;
-            sectionsContainer.style.transform = `translateY(-${currentIndex * 100}vh)`;
-            updateNavDots();
-            
-            // Move mascot to corresponding position
-            moveMascotToSection(index % mascotPositions.length);
-        }
-
-        // Handle wheel event for "jump" scroll
-        window.addEventListener('wheel', event => {
-            event.preventDefault();
-            if (isWheeling) return;
-
-            // Require more scroll momentum to trigger section jump
-            if (Math.abs(event.deltaY) > 50) {
-                isWheeling = true;
-                const direction = event.deltaY > 0 ? 1 : -1;
-                goToSection(currentIndex + direction);
-
-                setTimeout(() => { isWheeling = false; }, 1500); // Longer debounce for less sensitivity
-            }
-        }, { passive: false });
-
-        // Touch support for mobile devices
-        let touchStartY = 0;
-        let touchEndY = 0;
-        let isTouching = false;
-
-        window.addEventListener('touchstart', e => {
-            touchStartY = e.changedTouches[0].screenY;
-            isTouching = false;
-        });
-
-        window.addEventListener('touchend', e => {
-            if (isTouching) return;
-            
-            touchEndY = e.changedTouches[0].screenY;
-            const touchDiff = touchStartY - touchEndY;
-            
-            // Require minimum swipe distance
-            if (Math.abs(touchDiff) > 50) {
-                isTouching = true;
-                const direction = touchDiff > 0 ? 1 : -1;
-                goToSection(currentIndex + direction);
-                
-                setTimeout(() => { isTouching = false; }, 1000);
-            }
-        });
-
-        // Keyboard navigation support
-        window.addEventListener('keydown', e => {
-            if (e.key === 'ArrowDown' || e.key === 'PageDown') {
-                e.preventDefault();
-                goToSection(currentIndex + 1);
-            } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
-                e.preventDefault();
-                goToSection(currentIndex - 1);
-            } else if (e.key === 'Home') {
-                e.preventDefault();
-                goToSection(0);
-            } else if (e.key === 'End') {
-                e.preventDefault();
-                goToSection(totalSections - 1);
-            }
-        });
-        
-        // Handle window resize with mobile optimization
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            goToSection(currentIndex); // Recalculate position on resize
-        });
-
-        // Mobile-specific optimizations
-        const isMobile = window.innerWidth <= 768;
-        if (isMobile) {
-            // Reduce Three.js rendering quality on mobile for better performance
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        }
-
-        // Add mouse event listener
-        window.addEventListener('mousemove', onMouseMove);
-        
-        // Initial setup
-        updateNavDots();
-    </script>
 </body>
 </html>
