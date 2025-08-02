@@ -201,6 +201,24 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
             currentMascotSection = sectionIndex;
             const targetPos = mascotPositions[sectionIndex];
             
+            // Handle services video playback (play once when entering section)
+            const servicesVideo = document.getElementById('services-video');
+            const servicesSectionIndex = 4; // Services is the 5th section (index 4)
+            
+            if (servicesVideo) {
+                if (sectionIndex === servicesSectionIndex) {
+                    // Reset video to beginning and play once
+                    servicesVideo.currentTime = 0;
+                    servicesVideo.play().catch(error => {
+                        console.log('Video play was prevented:', error);
+                    });
+                    console.log('Services video started playing');
+                } else {
+                    // Pause video when leaving services section
+                    servicesVideo.pause();
+                }
+            }
+            
             // Get the animation for this section
             const animationName = sectionAnimations[sectionIndex];
             if (animationName && animations[animationName]) {
@@ -397,12 +415,65 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
         function goToSection(index) {
             if (index < 0 || index >= totalSections) return;
+            const previousIndex = currentIndex;
             currentIndex = index;
             sectionsContainer.style.transform = `translateY(-${currentIndex * 100}vh)`;
             updateNavDots();
             
             // Move mascot to corresponding position
             moveMascotToSection(index % mascotPositions.length);
+            
+            // Handle philosophy section animations (background slide-out + image animations)
+            const philosophySection = document.getElementById('philosophy');
+            const philosophySectionIndex = 2; // Philosophy is the 3rd section (index 2)
+            
+            if (philosophySection) {
+                // If we're scrolling to philosophy section
+                if (currentIndex === philosophySectionIndex) {
+                    philosophySection.classList.remove('scroll-out');
+                    philosophySection.classList.add('active');
+                }
+                // If we're scrolling away from philosophy section
+                else if (previousIndex === philosophySectionIndex && currentIndex !== philosophySectionIndex) {
+                    philosophySection.classList.add('scroll-out');
+                    philosophySection.classList.remove('active');
+                }
+                // If we're scrolling past philosophy section (from before it)
+                else if (previousIndex < philosophySectionIndex && currentIndex > philosophySectionIndex) {
+                    philosophySection.classList.add('scroll-out');
+                    philosophySection.classList.remove('active');
+                }
+                // If we're not on philosophy section, make sure it's not active
+                else if (currentIndex !== philosophySectionIndex) {
+                    philosophySection.classList.remove('active');
+                }
+            }
+            
+            // Handle services section animations (image slide-in/out)
+            const servicesSection = document.getElementById('services');
+            const servicesSectionIndex = 4; // Services is the 5th section (index 4)
+            
+            if (servicesSection) {
+                // If we're scrolling to services section
+                if (currentIndex === servicesSectionIndex) {
+                    servicesSection.classList.remove('scroll-out');
+                    servicesSection.classList.add('active');
+                }
+                // If we're scrolling away from services section
+                else if (previousIndex === servicesSectionIndex && currentIndex !== servicesSectionIndex) {
+                    servicesSection.classList.add('scroll-out');
+                    servicesSection.classList.remove('active');
+                }
+                // If we're scrolling past services section (from before it)
+                else if (previousIndex < servicesSectionIndex && currentIndex > servicesSectionIndex) {
+                    servicesSection.classList.add('scroll-out');
+                    servicesSection.classList.remove('active');
+                }
+                // If we're not on services section, make sure it's not active
+                else if (currentIndex !== servicesSectionIndex) {
+                    servicesSection.classList.remove('active');
+                }
+            }
         }
 
         // Handle wheel event for "jump" scroll
@@ -420,31 +491,45 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
             }
         }, { passive: false });
 
-        // Touch support for mobile devices
+        // Enhanced touch support for mobile devices with better "jump" behavior
         let touchStartY = 0;
         let touchEndY = 0;
+        let touchStartTime = 0;
         let isTouching = false;
 
         window.addEventListener('touchstart', e => {
             touchStartY = e.changedTouches[0].screenY;
+            touchStartTime = Date.now();
             isTouching = false;
-        });
+        }, { passive: true });
+
+        window.addEventListener('touchmove', e => {
+            // Prevent default scrolling during section navigation
+            if (Math.abs(e.changedTouches[0].screenY - touchStartY) > 20) {
+                e.preventDefault();
+            }
+        }, { passive: false });
 
         window.addEventListener('touchend', e => {
             if (isTouching) return;
             
             touchEndY = e.changedTouches[0].screenY;
             const touchDiff = touchStartY - touchEndY;
+            const touchTime = Date.now() - touchStartTime;
             
-            // Require minimum swipe distance
-            if (Math.abs(touchDiff) > 50) {
+            // More sensitive thresholds for better mobile experience
+            const minSwipeDistance = 30; // Reduced from 50
+            const maxSwipeTime = 800; // Allow slower swipes
+            
+            if (Math.abs(touchDiff) > minSwipeDistance && touchTime < maxSwipeTime) {
                 isTouching = true;
                 const direction = touchDiff > 0 ? 1 : -1;
                 goToSection(currentIndex + direction);
                 
-                setTimeout(() => { isTouching = false; }, 1000);
+                // Shorter debounce for more responsive feel
+                setTimeout(() => { isTouching = false; }, 800);
             }
-        });
+        }, { passive: true });
 
         // Keyboard navigation support
         window.addEventListener('keydown', e => {
@@ -538,22 +623,68 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
         updateNavDots();
 
 // --- Mobile Video Setup ---
-// Load different video on mobile for hero section
-function setupMobileVideo() {
+// Load different videos on mobile for all sections
+function setupMobileVideos() {
     if (isMobile || isSmallMobile || isExtraSmallMobile) {
-        const heroVideo = document.querySelector('.section video source');
+        // Hero section video
+        const heroVideo = document.querySelector('section:first-child video source');
         if (heroVideo) {
-            heroVideo.src = './assets/NatiKangaroo.mp4';
-            // Reload the video element to use new source
+            heroVideo.src = './assets/Hero-mobile.mp4';
             const videoElement = heroVideo.parentElement;
             videoElement.load();
-            console.log('Loaded mobile video: NatiKangaroo.mp4');
+            console.log('Loaded mobile video: Hero-mobile.mp4');
+        }
+
+        // Why Us section video
+        const whyUsVideo = document.querySelector('#why-us video source');
+        if (whyUsVideo) {
+            whyUsVideo.src = './assets/Boxing-mobile.mp4';
+            const videoElement = whyUsVideo.parentElement;
+            videoElement.load();
+            console.log('Loaded mobile video: Boxing-mobile.mp4');
+        }
+
+        // Services section video
+        const servicesVideo = document.querySelector('#services video source');
+        if (servicesVideo) {
+            servicesVideo.src = './assets/servicesBG.mp4';
+            const videoElement = servicesVideo.parentElement;
+            // Remove autoplay and loop for mobile as well
+            videoElement.removeAttribute('autoplay');
+            videoElement.removeAttribute('loop');
+            videoElement.load();
+            console.log('Loaded mobile video: servicesBG.mp4');
+        }
+
+        // Final CTA section video
+        const finalCtaVideo = document.querySelector('#final-cta video source');
+        if (finalCtaVideo) {
+            finalCtaVideo.src = './assets/services-mobile.mp4';
+            const videoElement = finalCtaVideo.parentElement;
+            videoElement.load();
+            console.log('Loaded mobile video: services-mobile.mp4 for Final CTA');
         }
     }
 }
 
-// Setup mobile video immediately
-setupMobileVideo();
+// Setup mobile videos immediately
+setupMobileVideos();
+
+// Services video - ensure it plays only once
+document.addEventListener('DOMContentLoaded', function() {
+    const servicesVideo = document.getElementById('services-video');
+    if (servicesVideo) {
+        // Add event listener to stop video after it ends (no loop)
+        servicesVideo.addEventListener('ended', function() {
+            console.log('Services video finished playing');
+            this.pause();
+            this.currentTime = 0; // Reset to beginning for next time
+        });
+        
+        // Ensure video is paused initially
+        servicesVideo.pause();
+    }
+});
 
 // --- Accessibility Features ---
 // High contrast mode toggle
@@ -683,6 +814,393 @@ document.addEventListener('DOMContentLoaded', function() {
             if (e.key === 'Escape' && accessibilityPanel.classList.contains('active')) {
                 accessibilityPanel.classList.remove('active');
                 accessibilityBtn.focus(); // Return focus to button
+            }
+        });
+    }
+});
+
+// Testimonials Carousel Functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const carousel = document.getElementById('testimonials-carousel');
+    const slides = carousel.querySelectorAll('.testimonial-slide');
+    const prevBtn = document.getElementById('testimonials-prev');
+    const nextBtn = document.getElementById('testimonials-next');
+    const dots = document.querySelectorAll('.carousel-dot');
+    
+    let currentSlide = 0;
+    let isTransitioning = false;
+    
+    // Auto-advance carousel every 4 seconds
+    let autoAdvanceInterval;
+    
+    function startAutoAdvance() {
+        autoAdvanceInterval = setInterval(() => {
+            if (!isTransitioning) {
+                nextSlide();
+            }
+        }, 4000);
+    }
+    
+    function stopAutoAdvance() {
+        clearInterval(autoAdvanceInterval);
+    }
+    
+    function showSlide(slideIndex) {
+        if (isTransitioning || slideIndex === currentSlide) return;
+        
+        isTransitioning = true;
+        
+        // Remove active class from current slide
+        slides[currentSlide].classList.remove('active');
+        dots[currentSlide].classList.remove('active');
+        
+        // Add prev class to current slide for animation
+        slides[currentSlide].classList.add('prev');
+        
+        // Update current slide index
+        currentSlide = slideIndex;
+        
+        // Add active class to new slide
+        slides[currentSlide].classList.add('active');
+        dots[currentSlide].classList.add('active');
+        
+        // Clean up animation classes after transition
+        setTimeout(() => {
+            slides.forEach(slide => {
+                if (!slide.classList.contains('active')) {
+                    slide.classList.remove('prev');
+                }
+            });
+            isTransitioning = false;
+        }, 600); // Match transition duration in CSS
+    }
+    
+    function nextSlide() {
+        const nextIndex = (currentSlide + 1) % slides.length;
+        showSlide(nextIndex);
+    }
+    
+    function prevSlide() {
+        const prevIndex = (currentSlide - 1 + slides.length) % slides.length;
+        showSlide(prevIndex);
+    }
+    
+    // Navigation arrow event listeners
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            stopAutoAdvance();
+            nextSlide();
+            startAutoAdvance();
+        });
+    }
+    
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            stopAutoAdvance();
+            prevSlide();
+            startAutoAdvance();
+        });
+    }
+    
+    // Dot navigation event listeners
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+            stopAutoAdvance();
+            showSlide(index);
+            startAutoAdvance();
+        });
+    });
+    
+    // Keyboard navigation for carousel
+    document.addEventListener('keydown', (e) => {
+        // Only handle carousel navigation when in testimonials section
+        const testimonialsSection = document.getElementById('testimonials');
+        const currentSection = document.querySelector('.section');
+        
+        if (testimonialsSection && e.target === document.body) {
+            if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                stopAutoAdvance();
+                nextSlide(); // RTL: left arrow goes to next
+                startAutoAdvance();
+            } else if (e.key === 'ArrowRight') {
+                e.preventDefault();
+                stopAutoAdvance();
+                prevSlide(); // RTL: right arrow goes to previous
+                startAutoAdvance();
+            }
+        }
+    });
+    
+    // Enhanced touch/swipe support for mobile
+    let touchStartX = 0;
+    let touchEndX = 0;
+    let touchStartY = 0;
+    let touchEndY = 0;
+    let touchStartTime = 0;
+    let isSwiping = false;
+    
+    carousel.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+        touchStartY = e.changedTouches[0].screenY;
+        touchStartTime = Date.now();
+        isSwiping = false;
+        
+        // Stop auto-advance when user starts touching
+        stopAutoAdvance();
+    }, { passive: true });
+    
+    carousel.addEventListener('touchmove', (e) => {
+        if (!touchStartX) return;
+        
+        const touchCurrentX = e.changedTouches[0].screenX;
+        const touchCurrentY = e.changedTouches[0].screenY;
+        
+        const diffX = Math.abs(touchCurrentX - touchStartX);
+        const diffY = Math.abs(touchCurrentY - touchStartY);
+        
+        // If horizontal movement is greater than vertical, prevent default scrolling
+        if (diffX > diffY && diffX > 10) {
+            e.preventDefault();
+            isSwiping = true;
+        }
+    }, { passive: false });
+    
+    carousel.addEventListener('touchend', (e) => {
+        if (!touchStartX) return;
+        
+        touchEndX = e.changedTouches[0].screenX;
+        touchEndY = e.changedTouches[0].screenY;
+        
+        handleSwipe();
+        
+        // Reset touch values
+        touchStartX = 0;
+        touchStartY = 0;
+        touchEndX = 0;
+        touchEndY = 0;
+        isSwiping = false;
+        
+        // Restart auto-advance after a delay
+        setTimeout(() => {
+            startAutoAdvance();
+        }, 1000);
+    }, { passive: true });
+    
+    function handleSwipe() {
+        const swipeThreshold = 30; // Reduced threshold for better mobile sensitivity
+        const swipeDistance = touchStartX - touchEndX;
+        const verticalDistance = Math.abs(touchStartY - touchEndY);
+        const swipeTime = Date.now() - touchStartTime;
+        
+        // Only process horizontal swipes that are greater than vertical movement
+        if (Math.abs(swipeDistance) > swipeThreshold && 
+            Math.abs(swipeDistance) > verticalDistance && 
+            swipeTime < 500) { // Quick swipe detection
+            
+            if (swipeDistance > 0) {
+                // Swiped left - go to next slide (RTL)
+                nextSlide();
+            } else {
+                // Swiped right - go to previous slide (RTL)
+                prevSlide();
+            }
+        }
+    }
+    
+    // Pause auto-advance on hover (desktop only)
+    if (!isMobile) {
+        carousel.addEventListener('mouseenter', stopAutoAdvance);
+        carousel.addEventListener('mouseleave', startAutoAdvance);
+    }
+    
+    // Start auto-advance
+    startAutoAdvance();
+    
+    // Accessibility: Announce slide changes to screen readers
+    function announceSlideChange() {
+        const announcement = `המלצה ${currentSlide + 1} מתוך ${slides.length}`;
+        
+        // Create or update ARIA live region for announcements
+        let liveRegion = document.getElementById('carousel-live-region');
+        if (!liveRegion) {
+            liveRegion = document.createElement('div');
+            liveRegion.id = 'carousel-live-region';
+            liveRegion.setAttribute('aria-live', 'polite');
+            liveRegion.setAttribute('aria-atomic', 'true');
+            liveRegion.style.position = 'absolute';
+            liveRegion.style.left = '-10000px';
+            liveRegion.style.width = '1px';
+            liveRegion.style.height = '1px';
+            liveRegion.style.overflow = 'hidden';
+            document.body.appendChild(liveRegion);
+        }
+        
+        liveRegion.textContent = announcement;
+    }
+    
+    // Update the showSlide function to include accessibility announcement
+    const originalShowSlide = showSlide;
+    showSlide = function(slideIndex) {
+        originalShowSlide(slideIndex);
+        setTimeout(announceSlideChange, 100); // Slight delay for better screen reader experience
+    };
+});
+
+// Contact Form Functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const contactForm = document.getElementById('contact-form');
+    const submitBtn = document.getElementById('submit-btn');
+    const formStatus = document.getElementById('form-status');
+    
+    // Smooth scroll for CTA links
+    document.querySelectorAll('.scroll-to-contact').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const contactSection = document.getElementById('contact');
+            const contactSectionIndex = Array.from(document.querySelectorAll('.section')).indexOf(contactSection);
+            
+            if (contactSectionIndex !== -1) {
+                goToSection(contactSectionIndex);
+            }
+        });
+    });
+    
+    if (contactForm) {
+        contactForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Disable submit button and show loading state
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'שולח...';
+            formStatus.className = 'form-status';
+            formStatus.textContent = '';
+            
+            // Collect form data
+            const formData = new FormData(contactForm);
+            
+            // Basic validation
+            const name = formData.get('name').trim();
+            const phone = formData.get('phone').trim();
+            
+            if (!name || !phone) {
+                showFormStatus('error', 'אנא מלא את השדות החובה (שם וטלפון)');
+                resetSubmitButton();
+                return;
+            }
+            
+            // Phone validation (Israeli format)
+            const phoneRegex = /^0\d{1,2}-?\d{7}$|^05\d-?\d{7}$/;
+            if (!phoneRegex.test(phone.replace(/\s/g, ''))) {
+                showFormStatus('error', 'אנא הכנס מספר טלפון תקין');
+                resetSubmitButton();
+                return;
+            }
+            
+            try {
+                // Submit to Formspree
+                const response = await fetch(contactForm.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    showFormStatus('success', 'תודה! ההודעה נשלחה בהצלחה. נחזור אליך בהקדם');
+                    contactForm.reset();
+                    
+                    // Optional: redirect to WhatsApp as fallback
+                    setTimeout(() => {
+                        const whatsappMessage = encodeURIComponent(`שלום! שלחתי טופס יצירת קשר באתר. שמי ${name} והטלפון שלי ${phone}`);
+                        const whatsappUrl = `https://wa.me/972508447575?text=${whatsappMessage}`;
+                        window.open(whatsappUrl, '_blank');
+                    }, 2000);
+                    
+                } else {
+                    const errorData = await response.json();
+                    if (errorData.errors) {
+                        showFormStatus('error', 'שגיאה בשליחת הטופס. אנא נסה שוב או צור קשר ישירות');
+                    } else {
+                        showFormStatus('error', 'שגיאה בשליחת הטופס. אנא נסה שוב');
+                    }
+                }
+            } catch (error) {
+                console.error('Form submission error:', error);
+                showFormStatus('error', 'שגיאת רשת. אנא בדק את החיבור שלך ונסה שוב');
+            }
+            
+            resetSubmitButton();
+        });
+    }
+    
+    function showFormStatus(type, message) {
+        formStatus.className = `form-status ${type}`;
+        formStatus.textContent = message;
+    }
+    
+    function resetSubmitButton() {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'שלח הודעה';
+    }
+    
+    // Real-time validation feedback
+    const nameInput = document.getElementById('name');
+    const phoneInput = document.getElementById('phone');
+    const emailInput = document.getElementById('email');
+    
+    if (nameInput) {
+        nameInput.addEventListener('blur', function() {
+            if (this.value.trim().length < 2) {
+                this.style.borderColor = '#f44336';
+            } else {
+                this.style.borderColor = '#4CAF50';
+            }
+        });
+        
+        nameInput.addEventListener('input', function() {
+            if (this.value.trim().length >= 2) {
+                this.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+            }
+        });
+    }
+    
+    if (phoneInput) {
+        phoneInput.addEventListener('blur', function() {
+            const phoneRegex = /^0\d{1,2}-?\d{7}$|^05\d-?\d{7}$/;
+            if (!phoneRegex.test(this.value.replace(/\s/g, ''))) {
+                this.style.borderColor = '#f44336';
+            } else {
+                this.style.borderColor = '#4CAF50';
+            }
+        });
+        
+        phoneInput.addEventListener('input', function() {
+            // Auto-format phone number
+            let value = this.value.replace(/\D/g, '');
+            if (value.startsWith('972')) {
+                value = '0' + value.substring(3);
+            }
+            if (value.length > 3 && !value.includes('-')) {
+                if (value.startsWith('05')) {
+                    value = value.substring(0, 3) + '-' + value.substring(3);
+                } else if (value.startsWith('0')) {
+                    value = value.substring(0, 2) + '-' + value.substring(2);
+                }
+            }
+            this.value = value;
+        });
+    }
+    
+    if (emailInput) {
+        emailInput.addEventListener('blur', function() {
+            if (this.value && !this.value.includes('@')) {
+                this.style.borderColor = '#f44336';
+            } else if (this.value) {
+                this.style.borderColor = '#4CAF50';
+            } else {
+                this.style.borderColor = 'rgba(255, 255, 255, 0.2)';
             }
         });
     }

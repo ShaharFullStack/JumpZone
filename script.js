@@ -113,7 +113,7 @@ const observer = new IntersectionObserver((entries) => {
 }, observerOptions);
 
 // Observe elements for animation
-document.querySelectorAll('.content-section, .testimonials, .pricing-table-wrapper').forEach(el => {
+document.querySelectorAll('.content-section, .testimonials, .pricing-table-wrapper, #services').forEach(el => {
     observer.observe(el);
 });
 

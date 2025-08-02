@@ -1,208 +1,576 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
     <title>Jump Zone | קפיצה אחת משנה את הכל</title>
-    
+
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
     <!-- Google Fonts (Heebo) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;900&display=swap"
+      rel="stylesheet"
+    />
     <script type="importmap">
-    {
+      {
         "imports": {
-            "three": "https://cdn.jsdelivr.net/npm/three@0.178.0/build/three.module.js",
-            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.178.0/examples/jsm/"
+          "three": "https://cdn.jsdelivr.net/npm/three@0.178.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.178.0/examples/jsm/"
         }
-    }
+      }
     </script>
     <script defer type="module" src="./app.js"></script>
-    
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    
+
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="services.css" />
+  </head>
+  <body>
     <!-- 3D Background Canvas -->
     <canvas id="bg-canvas"></canvas>
 
     <!-- Sections Container for the "jump" scroll -->
     <div id="sections-container">
-        <!-- Hero Section -->
-        <section class="section relative text-center text-white p-4 bg-black/50">
-            <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover z-[-1]">
-                <source src="./assets/Hero.mp4" type="video/mp4" />
-            </video>
-            <div class="z-10 flex flex-col items-center">
-                <div class="relative w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 mb-6 drop-shadow-2xl hero-logo"></div>
-                <h1 class="text-5xl md:text-7xl lg:text-8xl font-black leading-tight mb-4" style="text-shadow: 2px 2px 8px rgba(0,0,0,0.7)">
-                    קפיצה אחת יכולה לשנות את כל הסיפור שלך
-                </h1>
-                <p class="text-xl md:text-2xl max-w-3xl mb-8" style="text-shadow: 1px 1px 4px rgba(0,0,0,0.7)">
-                    משפרת את הכושר, מעצימה את הנפש ומחברת אותך לעצמך
-                </p>
-                <a href="https://wa.me/972508447575?text=אני%20רוצה%20לקבוע%20שיעור%20ניסיון!" target="_blank" class="px-8 py-4 bg-orange-600/40 text-white font-bold text-lg rounded-lg shadow-lg hover:bg-orange-700 transition-all duration-300 transform hover:scale-105">
-                    אני רוצה לקבוע שיעור ניסיון!
-                </a>
-            </div>
-        </section>
+      <!-- Hero Section -->
+      <section class="section relative object-cover text-white p-4">
+          <video
+            autoplay
+            loop
+            muted
+            playsinline
+            class="absolute inset-0 w-full h-full object-cover z-[-1]"
+          >
+            <source src="./assets/Hero.mp4" type="video/mp4" />
+          </video>
+          <div class="z-10 flex flex-col text-center items-center">
+            <div
+              class="relative w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 mb-6 drop-shadow-2xl hero-logo"
+            ></div>
+            <h1
+              class="text-5xl md:text-7xl lg:text-8xl font-black leading-tight mb-4"
+              style="text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7)"
+            >
+              קפיצה אחת יכולה לשנות את כל הסיפור שלך
+            </h1>
+            <p
+              class="text-xl md:text-2xl max-w-3xl mb-8"
+              style="text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7)"
+            >
+              משפרת את הכושר, מעצימה את הנפש ומחברת אותך לעצמך
+            </p>
+            <a
+              href="https://wa.me/972508447575?text=אני%20רוצה%20לקבוע%20שיעור%20ניסיון!"
+              target="_blank"
+              class="px-8 py-4 bg-orange-600/40 text-white font-bold text-lg rounded-lg shadow-lg hover:bg-orange-700 transition-all duration-300 transform hover:scale-105"
+            >
+              אני רוצה לקבוע שיעור ניסיון!
+            </a>
+          </div>
+      </section>
 
-        <!-- Story Section -->
-        <section id="story" class="section p-8 md:p-12 bg-black/80 text-white">
-            <div class="grid md:grid-cols-2 gap-12 max-w-6xl items-center">
-                <div class="order-2 md:order-2">
-                </div>
-                <div class="order-2 md:order-2 p-10 bg-white/80 rounded-2xl shadow-lg">
-                    <h2 class="text-4xl md:text-5xl p-10 font-bold mb-6 text-indigo-900">קפיצה שהצילה חיים. הסיפור שלי.</h2>
-                    <p class="mb-4 text-xl text-black font-semibold leading-relaxed">אני המאמן היחיד בארץ (ואולי בעולם) שבנה את חייו מחדש עם עין אחת, חבל קפיצה אחד ולב ענק. ב2018 חיי נעצרו. אובחנתי עם גלאוקומה קשה, שהובילה לכאבים בלתי נסבלים, לילות בלי שינה, ודיכאון עמוק. איבדתי את הראייה בעין שמאל אבל מה שכאב יותר היה לאבד את הזהות שלי, את האנרגיה, את הביטחון, את עצמי.</p>
-                    <p class="text-lg text-black font-semibold leading-relaxed">הייתי במקום חשוך. מנותק מהעולם. עם חרדה חברתית, פחדים, ואפס תקווה. אבל דווקא שם ברגע הכי נמוך גיליתי משהו פשוט: חבל קפיצה. הוא לא היה רק כלי לאימון. הוא היה קצב. עוגן. דרך לנשום מחדש. דרכו בניתי את עצמי מהיסוד – גוף, נפש, ולב.</p>
-                </div>
-            </div>
-        </section>
+<!-- Story Section -->
+<section id="story" class="section p-8 md:p-12  bg-black/80 text-white">
+  <div class="grid md:grid-cols-2 gap-12 mx-auto items-center">
+    <div class="hidden md:block">
+      <!-- תמונה/וידאו כאן -->
+    </div>
 
-        <!-- Philosophy Section -->
-        <section id="philosophy" class="section p-8 md:p-12 text-white">
-            <div class="max-w-6xl text-center mt-12">
-           </div>
-            <div class="grid md:grid-cols-2 gap-12 max-w-6xl">
-                <div id="philosophy-content" class="order-2 md:order-2 p-10 bg-white/80 rounded-2xl shadow-lg">
-                    <h2 class="text-4xl md:text-5xl font-bold mb-6 text-orange-400">פילוסופיית הקפיצה: החיים דרך חבל אחד</h2>
-                    <p class="mb-4 text-lg leading-relaxed">קפיצה בחבל היא השתקפות של החיים עצמם. כל קפיצה היא בחירה: לבחור לנוע גם כשכואב. לטעות, להסתבך, ואז לחזור לקצב. להתאזן, לנשום, לקפוץ שוב גם אחרי נפילה.</p>
-                    <p class="text-lg leading-relaxed">החבל הזה לימד אותי שאם אני יכול לשלוט בתנועה אני יכול לשלוט בסיפור שלי. שאם אני מצליח לסנכרן בין נשימה, קצב ותודעה אני יכול לנצח גם את הפחדים הכי עמוקים שלי. זו לא רק שיטה לשיפור כושר זו דרך להתחבר לעצמך. דרך לפרוץ גבולות פנימיים, לשחרר מתחים, לבנות חוסן מנטלי ולהיזכר בכוח שיש בך.</p>
-                </div>
-            </div>
-        </section>
+    <div class="p-10 bg-white/80 rounded-2xl shadow-lg">
+      <h2 class="text-4xl md:text-5xl font-bold mb-6 text-indigo-900">
+        קפיצה שהצילה חיים.
+      </h2>
 
-        <!-- Why Us Section -->
-        <section id="why-us" class="section relative text-right text-white p-4">
-            <div class="absolute inset-0 opacity-60 z-0"></div>
-            <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover z-[-1]">
-                <source src="assets/boxing.mp4" type="video/mp4" />
-            </video>
-            <div id="why-us-content" class="z-10 flex flex-col items-center max-w-4xl mx-auto">
-                <h2 class="text-4xl md:text-5xl font-bold mb-8 text-indigo-400" style="text-shadow: 2px 2px 8px rgba(0,0,0,0.7)"> מה זה Jump Zone?</h2>
-                <ul class="grid md:grid-cols-1 gap-y-4 text-lg mb-8 text-right">
-                    <li class="relative pr-6 py-2 text-right before:content-['●'] before:absolute before:right-0 before:text-green-400 before:text-xl before:leading-none">אימונים קבוצתיים ואישיים בגישה בגובה העיניים</li>
-                    <li class="relative pr-6 py-2 text-right before:content-['●'] before:absolute before:right-0 before:text-green-400 before:text-xl before:leading-none">חיבור בין תנועה, מוזיקה ונפש</li>
-                    <li class="relative pr-6 py-2 text-right before:content-['●'] before:absolute before:right-0 before:text-green-400 before:text-xl before:leading-none">קהילה בטוחה ומכילה</li>
-                    <li class="relative pr-6 py-2 text-right before:content-['●'] before:absolute before:right-0 before:text-green-400 before:text-xl before:leading-none">סדנאות השראה, העצמה וחוסן מנטלי</li>
-                    <li class="relative pr-6 py-2 text-right before:content-['●'] before:absolute before:right-0 before:text-green-400 before:text-xl before:leading-none">מקום אמיתי לצמיחה פיזית ורגשית</li>
-                    <li class="relative pr-6 py-2 text-right before:content-['●'] before:absolute before:right-0 before:text-green-400 before:text-xl before:leading-none">אימונים מותאמים לכל גיל ורמה</li>
-                </ul>
-                <a href="https://wa.me/972508447575?text=אני%20רוצה%20לשמוע%20עוד%20פרטים" target="_blank" class="px-8 py-4 bg-indigo-600 text-white font-bold text-lg rounded-xl shadow-lg hover:bg-indigo-700 transition-all duration-300 transform hover:scale-105">
-                    אני רוצה לשמוע עוד פרטים
-                </a>
-            </div>
-        </section>
+      <p class="mb-4 text-2xl md:text-3xl text-black font-semibold leading-relaxed">
+        אני המאמן היחיד בארץ (ואולי בעולם) שבנה את חייו מחדש עם עין אחת, חבל קפיצה אחד ולב ענק.
+        בשנת 2018 חיי נעצרו. אובחנתי עם גלאוקומה קשה שהביאה איתה כאבים בלתי נסבלים, לילות בלי שינה ודיכאון עמוק.
+        איבדתי את הראייה בעין שמאל – אבל מה שכאב יותר היה לאבד את הזהות שלי, את האנרגיה, את הביטחון. את עצמי.
+      </p>
 
-        <!-- Services Section -->
-        <section id="services" class="section p-8 md:p-12 text-white">
-            <div class="absolute inset-0 opacity-60 z-0"></div>
-            <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover z-[-1]">
-                <source src="assets/services.mp4" type="video/mp4" />
-            </video>
-            <div class="max-w-6xl text-center">
-                <h2 class="text-4xl md:text-5xl font-bold mb-12 text-pink-400">השירותים שלנו</h2>
-                <div class="grid md:grid-cols-3 gap-8">
-                    <div class="backdrop-blur-sm bg-black/40 p-8 rounded-2xl shadow-lg flex flex-col items-center"><div class="text-5xl mb-4"></div><h3 class="text-2xl font-bold mb-4">אימונים</h3><ul class="text-gray-300 space-y-2"><li>אימוני קפיצה אישיים וקבוצתיים</li><li>אימוני אונליין מהבית</li></ul></div>
-                    <div class="backdrop-blur-sm bg-black/40 p-8 rounded-2xl shadow-lg flex flex-col items-center"><div class="text-5xl mb-4"></div><h3 class="text-2xl font-bold mb-4">העצמה אישית</h3><ul class="text-gray-300 space-y-2"><li>סדנאות חוסן מנטלי, שחרור מתחים וביטוי עצמי</li><li>ליווי למי שעובר שיקום, קושי נפשי או גופני</li><li>בניית ביטחון עצמי וקואורדינציה צעד אחר צעד</li></ul></div>
-                    <div class="backdrop-blur-sm bg-black/40 p-8 rounded-2xl shadow-lg flex flex-col items-center"><div class="text-5xl mb-4"></div><h3 class="text-2xl font-bold mb-4">קהילה</h3><ul class="text-gray-300 space-y-2"><li>מפגשים, אירועים ופעילויות חברתיות</li><li>מקום בטוח לשאול, לטעות, לצמוח</li></ul></div>
-                </div>
-            </div>
-        </section>
+      <p class="text-2xl md:text-3xl text-black font-semibold leading-relaxed mb-6">
+        הייתי במקום חשוך. מנותק מהעולם. עם חרדה חברתית, פחדים, ואפס תקווה.
+        אבל דווקא שם, ברגע הכי נמוך, גיליתי משהו פשוט: חבל קפיצה.
+        הוא לא היה רק כלי לאימון. הוא היה קצב. עוגן. דרך לנשום מחדש.
+        דרכו בניתי את עצמי מהיסוד – גוף, נפש ולב.
+      </p>
 
-        <!-- Testimonials Section -->
-        <section id="testimonials" class="section p-8 md:p-12 text-white">
-            <div class="max-w-5xl text-center mx-auto">
-                <h2 class="text-6xl md:text-7xl font-bold mb-20 text-[#FF6135]">קופצים כותבים</h2>
-                <div class="grid md:grid-cols-3 p-6 gap-8">
-                    <img src="assets/testimonials1.jpeg" alt="">
-                    <img src="assets/testimonials1.jpeg" alt="">
-                    <img src="assets/testimonials1.jpeg" alt="">
-                </div>
-            </div>
-        </section>
+      <div class="text-center mt-8">
+        <a 
+          href="#contact" 
+          class="inline-block px-6 py-3 bg-indigo-600 text-white font-bold text-lg rounded-lg shadow-lg hover:bg-indigo-700 transition-all duration-300 transform hover:scale-105 scroll-to-contact"
+        >
+          בואו נדבר
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
 
-        <!-- Pricing Section -->
-        <section id="pricing" class="section p-8 md:p-12 bg-gray-800 text-white">
-            <div class="max-w-4xl w-full">
-                <h2 class="text-4xl md:text-5xl font-bold mb-8 text-center text-pink-400">מחירון Jump Zone</h2>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-center bg-gray-900 rounded-lg shadow-lg">
-                        <thead class="bg-gray-700"><tr><th class="p-4 font-bold">סוג אימון</th><th class="p-4 font-bold">משך</th><th class="p-4 font-bold">מחיר לאימון בודד</th></tr></thead>
-                        <tbody>
-                            <tr class="border-b border-gray-700"><td class="p-4">אימון אישי</td><td class="p-4">45-60 דק'</td><td class="p-4">150-250 ₪</td></tr>
-                            <tr class="border-b border-gray-700"><td class="p-4">אימון קבוצתי (נוער)</td><td class="p-4">60-90 דק'</td><td class="p-4">65 ₪</td></tr>
-                            <tr class="border-b border-gray-700"><td class="p-4">אימון קבוצתי (מבוגרים)</td><td class="p-4">60-90 דק'</td><td class="p-4">58 ₪</td></tr>
-                            <tr><td class="p-4">שיעור אונליין/זום</td><td class="p-4">60 דק'</td><td class="p-4">100-150 ₪</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-                <p class="text-center mt-6 text-gray-400">* כל המחירים לאימון בודד. ניתן לרכוש חבילות מוזלות – לפרטים צרו קשר.<br>* כל האימונים כוללים ליווי אישי, תוכנית מותאמת וקהילה תומכת.</p>
-            </div>
-        </section>
 
-        <!-- Final CTA Section -->
-        <section id="final-cta" class="section relative text-center text-white p-4">
-            <div class="absolute inset-0 bg-black opacity-50 z-0"></div>
-            <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover z-[-1]">
-                <source src="./assets/services.mp4" type="video/mp4" />
-            </video>
-            <div class="z-10 flex flex-col items-center">
-                <h2 class="text-5xl md:text-7xl font-black mb-6">מוכן לעשות את הקפיצה?</h2>
-                <p class="text-xl md:text-2xl max-w-2xl mb-8">אם אתה מחפש לא רק אימון אלא דרך חדשה לחיות, לנשום ולנצח את עצמך – Jump Zone זה המקום בשבילך.</p>
-                <a href="https://wa.me/972508447575?text=אני%20מוכן%20לקפוץ!%20קובעים%20שיעור%20ניסיון?" target="_blank" class="px-8 py-4 bg-pink-500 text-white font-bold text-lg rounded-lg shadow-lg hover:bg-pink-600 transition-all duration-300 transform hover:scale-105">
-                    אני מוכן לקפוץ! קובעים שיעור ניסיון?
-                </a>
+      <!-- Philosophy Section -->
+      <section id="philosophy" class="section p-8 md:p-12 text-white">
+        <div class="grid md:grid-cols-2 mx-auto items-center max-w-6xl">
+          <div
+          id="philosophy-content"
+          class="order-1 md:order-1 p-10 bg-white/80 rounded-2xl shadow-lg"
+          >
+          <h2 class="text-4xl md:text-5xl font-bold mb-6 text-orange-400">
+            פילוסופיית הקפיצה: החיים דרך חבל אחד
+          </h2>
+          <p class="mb-4 text-lg leading-relaxed">
+            קפיצה בחבל היא השתקפות של החיים עצמם. כל קפיצה היא בחירה: לבחור
+            לנוע גם כשכואב. לטעות, להסתבך, ואז לחזור לקצב. להתאזן, לנשום,
+            לקפוץ שוב גם אחרי נפילה.
+          </p>
+          <p class="text-lg leading-relaxed mb-6">
+            החבל הזה לימד אותי שאם אני יכול לשלוט בתנועה אני יכול לשלוט בסיפור
+            שלי. שאם אני מצליח לסנכרן בין נשימה, קצב ותודעה אני יכול לנצח גם
+            את הפחדים הכי עמוקים שלי. זו לא רק שיטה לשיפור כושר זו דרך להתחבר
+            לעצמך. דרך לפרוץ גבולות פנימיים, לשחרר מתחים, לבנות חוסן מנטלי
+            ולהיזכר בכוח שיש בך.
+          </p>
+          <div class="text-center mt-8">
+            <a 
+            href="#contact" 
+            class="inline-block px-6 py-3 bg-orange-600 text-white font-bold text-lg rounded-lg shadow-lg hover:bg-orange-700 transition-all duration-300 transform hover:scale-105 scroll-to-contact"
+            >
+            מוכן לגלות את הכוח שיש בך?
+          </a>
+        </div>
+      </div>
+      <div class="order-2 md:order-2 flex justify-center items-center object-cover h-full">
+        <img src="./assets/NatiTransp-mobile.png" alt="מלקר קפיצה" />
+      </div>
+    </div>
+      </section>
+
+      <!-- Why Us Section -->
+      <section id="why-us" class="section relative text-right text-white p-4">
+        <div class="absolute inset-0 opacity-60 z-0"></div>
+        <video
+          autoplay
+          loop
+          muted
+          playsinline
+          class="absolute inset-0 w-full h-full object-cover z-[-1]"
+        >
+          <source src="assets/Boxing.mp4" type="video/mp4" />
+        </video>
+        <div
+          id="why-us-content"
+          class="z-10 flex flex-col items-center max-w-4xl mx-auto"
+        >
+          <h2 class="text-4xl md:text-5xl font-bold mb-6 text-orange-400">
+
+            מה זה Jump Zone?
+          </h2>
+          <ul class="grid md:grid-cols-1 gap-y-4 text-lg mb-8 text-right">
+            <li
+              class="relative pr-6 py-2 text-right before:content-['●'] before:absolute before:right-0 before:text-green-400 before:text-xl before:leading-none"
+            >
+              אימונים קבוצתיים ואישיים בגישה בגובה העיניים
+            </li>
+            <li
+              class="relative pr-6 py-2 text-right before:content-['●'] before:absolute before:right-0 before:text-green-400 before:text-xl before:leading-none"
+            >
+              חיבור בין תנועה, מוזיקה ונפש
+            </li>
+            <li
+              class="relative pr-6 py-2 text-right before:content-['●'] before:absolute before:right-0 before:text-green-400 before:text-xl before:leading-none"
+            >
+              קהילה בטוחה ומכילה
+            </li>
+            <li
+              class="relative pr-6 py-2 text-right before:content-['●'] before:absolute before:right-0 before:text-green-400 before:text-xl before:leading-none"
+            >
+              סדנאות השראה, העצמה וחוסן מנטלי
+            </li>
+            <li
+              class="relative pr-6 py-2 text-right before:content-['●'] before:absolute before:right-0 before:text-green-400 before:text-xl before:leading-none"
+            >
+              מקום אמיתי לצמיחה פיזית ורגשית
+            </li>
+            <li
+              class="relative pr-6 py-2 text-right before:content-['●'] before:absolute before:right-0 before:text-green-400 before:text-xl before:leading-none"
+            >
+              אימונים מותאמים לכל גיל ורמה
+            </li>
+          </ul>
+          <a
+            href="https://wa.me/972508447575?text=אני%20רוצה%20לשמוע%20עוד%20פרטים"
+            target="_blank"
+            class="px-8 py-4 bg-indigo-600 text-white font-bold text-lg rounded-xl shadow-lg hover:bg-indigo-700 transition-all duration-300 transform hover:scale-105"
+          >
+            אני רוצה לשמוע עוד פרטים
+          </a>
+        </div>
+      </section>
+
+      <!-- Services Section -->
+      <section id="services" class="section services-section">
+        <div class="services-overlay"></div>
+        <!-- Video background -->
+        <video
+          muted
+          playsinline
+          class="services-video-bg"
+          id="services-video"
+        >
+          <source src="assets/servicesBG.mp4" type="video/mp4" />
+        </video>
+        <!-- Sliding image from right -->
+        <div class="services-sliding-image">
+          <img src="assets/NatiBWTransp.png" alt="Nati" class="sliding-nati-image" />
+        </div>
+        <div class="services-container">
+          <h2 class="services-title">
+            לשבור חומות בקפיצה
+          </h2>
+          <div class="services-grid">
+            <div class="service-card">
+              <div class="service-icon"></div>
+              <h3 class="service-title">העצמה אישית</h3>
+              <ul class="service-list">
+                <li class="service-item">סדנאות חוסן מנטלי, שחרור מתחים וביטוי עצמי</li>
+                <li class="service-item">ליווי למי שעובר שיקום, קושי נפשי או גופני</li>
+                <li class="service-item">בניית ביטחון עצמי וקואורדינציה צעד אחר צעד</li>
+              </ul>
             </div>
-        </section>
+            <div class="service-card">
+              <div class="service-icon"></div>
+              <h3 class="service-title">קהילה</h3>
+              <ul class="service-list">
+                <li class="service-item">מפגשים, אירועים ופעילויות חברתיות</li>
+                <li class="service-item">מקום בטוח לשאול, לטעות, לצמוח</li>
+              </ul>
+            </div>
+
+            <div class="service-card">
+              <div class="service-icon"></div>
+              <h3 class="service-title">אימונים</h3>
+              <ul class="service-list">
+                <li class="service-item">אימוני קפיצה אישיים וקבוצתיים</li>
+                <li class="service-item">אימוני אונליין מהבית</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Testimonials Section -->
+      <section id="testimonials" class="section p-8 md:p-12 text-white">
+        <div class="max-w-5xl text-center mx-auto">
+          <h2 class="text-6xl md:text-7xl font-bold mb-20 text-[#FF6135]">
+            קופצים כותבים
+          </h2>
+          
+          <!-- Testimonials Carousel -->
+          <div class="testimonials-carousel-container relative">
+            <div class="testimonials-carousel" id="testimonials-carousel">
+              <div class="testimonial-slide active">
+                <img src="assets/testimonials1.jpeg" alt="המלצה 1" class="testimonial-image" />
+              </div>
+              <div class="testimonial-slide">
+                <img src="assets/testimonials2.jpeg" alt="המלצה 2" class="testimonial-image" />
+              </div>
+              <div class="testimonial-slide">
+                <img src="assets/testimonials3.jpeg" alt="המלצה 3" class="testimonial-image" />
+              </div>
+              <div class="testimonial-slide">
+                <img src="assets/testimonials4.jpeg" alt="המלצה 4" class="testimonial-image" />
+              </div>
+              <div class="testimonial-slide">
+                <img src="assets/testimonials5.jpeg" alt="המלצה 5" class="testimonial-image" />
+              </div>
+            </div>
+            
+            <!-- Navigation Arrows -->
+            <button class="carousel-nav carousel-nav-prev" id="testimonials-prev" aria-label="המלצה קודמת">
+              <span>‹</span>
+            </button>
+            <button class="carousel-nav carousel-nav-next" id="testimonials-next" aria-label="המלצה הבאה">
+              <span>›</span>
+            </button>
+            
+            <!-- Carousel Dots -->
+            <div class="carousel-dots" id="testimonials-dots">
+              <button class="carousel-dot active" data-slide="0" aria-label="המלצה 1"></button>
+              <button class="carousel-dot" data-slide="1" aria-label="המלצה 2"></button>
+              <button class="carousel-dot" data-slide="2" aria-label="המלצה 3"></button>
+              <button class="carousel-dot" data-slide="3" aria-label="המלצה 4"></button>
+              <button class="carousel-dot" data-slide="4" aria-label="המלצה 5"></button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Pricing Section -->
+      <section id="pricing" class="section p-8 md:p-12 bg-gray-800 text-white">
+        <div class="max-w-4xl w-full">
+          <h2
+            class="text-4xl md:text-5xl font-bold mb-8 text-center text-pink-400"
+          >
+            מחירון Jump Zone
+          </h2>
+          <div class="overflow-x-auto">
+            <table class="w-full text-center bg-gray-900 rounded-lg shadow-lg">
+              <thead class="bg-gray-700">
+                <tr>
+                  <th class="p-4 font-bold">סוג אימון</th>
+                  <th class="p-4 font-bold">משך</th>
+                  <th class="p-4 font-bold">מחיר לאימון בודד</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="border-b border-gray-700">
+                  <td class="p-4">אימון אישי</td>
+                  <td class="p-4">45-60 דק'</td>
+                  <td class="p-4">150-250 ₪</td>
+                </tr>
+                <tr class="border-b border-gray-700">
+                  <td class="p-4">אימון קבוצתי (נוער)</td>
+                  <td class="p-4">60-90 דק'</td>
+                  <td class="p-4">65 ₪</td>
+                </tr>
+                <tr class="border-b border-gray-700">
+                  <td class="p-4">אימון קבוצתי (מבוגרים)</td>
+                  <td class="p-4">60-90 דק'</td>
+                  <td class="p-4">58 ₪</td>
+                </tr>
+                <tr>
+                  <td class="p-4">שיעור אונליין/זום</td>
+                  <td class="p-4">60 דק'</td>
+                  <td class="p-4">100-150 ₪</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="text-center mt-6 text-gray-400">
+            * כל המחירים לאימון בודד. ניתן לרכוש חבילות מוזלות – לפרטים צרו
+            קשר.<br />* כל האימונים כוללים ליווי אישי, תוכנית מותאמת וקהילה
+            תומכת.
+          </p>
+        </div>
+      </section>
+
+      <!-- Final CTA Section -->
+      <section
+        id="final-cta"
+        class="section relative text-center text-white p-4"
+      >
+        <div class="absolute inset-0 bg-black opacity-50 z-0"></div>
+        <video
+          autoplay
+          loop
+          muted
+          playsinline
+          class="absolute inset-0 w-full h-full object-cover z-[-1]"
+        >
+          <source src="./assets/services.mp4" type="video/mp4" />
+        </video>
+        <div class="z-10 flex flex-col items-center">
+          <h2 class="text-5xl md:text-7xl font-black mb-6">
+            מוכן לעשות את הקפיצה?
+          </h2>
+          <p class="text-xl md:text-2xl max-w-2xl mb-8">
+            אם אתה מחפש לא רק אימון אלא דרך חדשה לחיות, לנשום ולנצח את עצמך –
+            Jump Zone זה המקום בשבילך.
+          </p>
+          <a
+            href="https://wa.me/972508447575?text=אני%20מוכן%20לקפוץ!%20קובעים%20שיעור%20ניסיון?"
+            target="_blank"
+            class="px-8 py-4 bg-pink-500 text-white font-bold text-lg rounded-lg shadow-lg hover:bg-pink-600 transition-all duration-300 transform hover:scale-105"
+          >
+            אני מוכן לקפוץ! קובעים שיעור ניסיון?
+          </a>
+        </div>
+      </section>
+
+      <!-- Contact Form Section -->
+      <section id="contact" class="section p-8 md:p-12 bg-gray-900 text-white">
+        <div class="max-w-4xl mx-auto text-center">
+          <h2 class="text-4xl md:text-5xl font-bold mb-8 text-[#FF6135]">
+            בואו נתחיל את המסע יחד
+          </h2>
+          <p class="text-xl mb-12 text-gray-300">
+            מעוניינים לשמוע עוד? השאירו פרטים ונחזור אליכם בהקדם
+          </p>
+          
+          <form 
+            id="contact-form" 
+            action="https://formspree.io/f/mqaldzwl" 
+            method="POST"
+            class="max-w-2xl mx-auto space-y-6"
+          >
+            <div class="grid md:grid-cols-2 gap-6">
+              <div class="form-group">
+                <label for="name" class="block text-right text-lg font-semibold mb-2">שם מלא *</label>
+                <input 
+                  type="text" 
+                  id="name" 
+                  name="name" 
+                  required 
+                  class="contact-input"
+                  placeholder="השם המלא שלך"
+                />
+              </div>
+              <div class="form-group">
+                <label for="phone" class="block text-right text-lg font-semibold mb-2">טלפון *</label>
+                <input 
+                  type="tel" 
+                  id="phone" 
+                  name="phone" 
+                  required 
+                  class="contact-input"
+                  placeholder="050-1234567"
+                />
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="email" class="block text-right text-lg font-semibold mb-2">אימייל</label>
+              <input 
+                type="email" 
+                id="email" 
+                name="email" 
+                class="contact-input"
+                placeholder="your@email.com"
+              />
+            </div>
+            
+            <div class="form-group">
+              <label for="service" class="block text-right text-lg font-semibold mb-2">איזה שירות מעניין אותך?</label>
+              <select id="service" name="service" class="contact-input">
+                <option value="">בחר שירות</option>
+                <option value="personal-training">אימון אישי</option>
+                <option value="group-classes">אימוני קבוצה</option>
+                <option value="online-training">אימוני אונליין</option>
+                <option value="workshops">סדנאות העצמה</option>
+                <option value="consultation">ייעוץ והכוונה</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="message" class="block text-right text-lg font-semibold mb-2">הודעה</label>
+              <textarea 
+                id="message" 
+                name="message" 
+                rows="5" 
+                class="contact-input"
+                placeholder="ספר לנו קצת על עצמך ומה הביא אותך לכאן..."
+              ></textarea>
+            </div>
+            
+            <button 
+              type="submit" 
+              class="contact-submit-btn"
+              id="submit-btn"
+            >
+              שלח הודעה
+            </button>
+            
+            <div id="form-status" class="form-status"></div>
+          </form>
+          
+          <div class="contact-alternatives mt-12 pt-8 border-t border-gray-700">
+            <h3 class="text-2xl font-bold mb-6 text-[#FF6135]">או צרו קשר ישירות</h3>
+            <div class="flex flex-col md:flex-row justify-center items-center gap-6">
+              <a 
+                href="https://wa.me/972508447575?text=שלום! אני מעוניין לשמוע עוד על Jump Zone" 
+                target="_blank"
+                class="contact-alt-btn bg-[#25D366] hover:bg-[#128C7E]"
+              >
+                📱 וואטסאפ: 050-8447575
+              </a>
+              <a 
+                href="tel:0508447575"
+                class="contact-alt-btn bg-blue-600 hover:bg-blue-700"
+              >
+                📞 חייגו: 050-8447575
+              </a>
+              <a 
+                href="mailto:melker694@gmail.com"
+                class="contact-alt-btn bg-red-600 hover:bg-red-700"
+              >
+                ✉️ מייל: melker694@gmail.com
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
 
     <!-- Navigation Dots -->
     <div id="nav-dots"></div>
-    
+
     <!-- Accessibility Menu -->
     <div id="accessibility-floating-menu">
-        <button id="accessibility-btn" class="accessibility-btn text-4xl" aria-label="פתיחת תפריט נגישות">
-            <span>♿</span>
-        </button>
-        <div id="accessibility-panel" class="accessibility-panel">
-            <div class="accessibility-header">
-                <h3>נגישות</h3>
-                <button id="close-accessibility" aria-label="סגירת תפריט נגישות">×</button>
-            </div>
-            <div class="accessibility-content">
-                <div class="accessibility-controls">
-                    <button onclick="toggleHighContrast()" class="accessibility-control-btn">ניגודיות גבוהה</button>
-                    <div class="font-size-controls">
-                        <button onclick="decreaseFontSize()" class="accessibility-control-btn">הקטן טקסט</button>
-                        <button onclick="increaseFontSize()" class="accessibility-control-btn">הגדל טקסט</button>
-                    </div>
-                </div>
-                <div class="accessibility-info">
-                    <h4>הצהרת נגישות</h4>
-                    <p>Jump Zone רואה חשיבות רבה בהנגשת האתר לכלל האוכלוסייה, כולל אנשים עם מוגבלויות.</p>
-                    <h5>הנגשות שבוצעו:</h5>
-                    <ul>
-                        <li>ניגודיות גבוהה לטקסטים וכפתורים</li>
-                        <li>התאמת גודל טקסט</li>
-                        <li>ניווט מקלדת</li>
-                        <li>תמיכה בקוראי מסך</li>
-                        <li>התאמה למכשירים ניידים</li>
-                    </ul>
-                    <div class="accessibility-contact">
-                        <p>לפניות בנושא נגישות:</p>
-                        <a href="mailto:melker694@gmail.com">melker694@gmail.com</a><br>
-                        <a href="tel:0508447575">050-8447575</a>
-                    </div>
-                </div>
-            </div>
+      <button
+        id="accessibility-btn"
+        class="accessibility-btn text-4xl"
+        aria-label="פתיחת תפריט נגישות"
+      >
+        <span>♿</span>
+      </button>
+      <div id="accessibility-panel" class="accessibility-panel">
+        <div class="accessibility-header">
+          <h3>נגישות</h3>
+          <button id="close-accessibility" aria-label="סגירת תפריט נגישות">
+            ×
+          </button>
         </div>
+        <div class="accessibility-content">
+          <div class="accessibility-controls">
+            <button
+              onclick="toggleHighContrast()"
+              class="accessibility-control-btn"
+            >
+              ניגודיות גבוהה
+            </button>
+            <div class="font-size-controls">
+              <button
+                onclick="decreaseFontSize()"
+                class="accessibility-control-btn"
+              >
+                הקטן טקסט
+              </button>
+              <button
+                onclick="increaseFontSize()"
+                class="accessibility-control-btn"
+              >
+                הגדל טקסט
+              </button>
+            </div>
+          </div>
+          <div class="accessibility-info">
+            <h4>הצהרת נגישות</h4>
+            <p>
+              Jump Zone רואה חשיבות רבה בהנגשת האתר לכלל האוכלוסייה, כולל אנשים
+              עם מוגבלויות.
+            </p>
+            <h5>הנגשות שבוצעו:</h5>
+            <ul>
+              <li>ניגודיות גבוהה לטקסטים וכפתורים</li>
+              <li>התאמת גודל טקסט</li>
+              <li>ניווט מקלדת</li>
+              <li>תמיכה בקוראי מסך</li>
+              <li>התאמה למכשירים ניידים</li>
+            </ul>
+            <div class="accessibility-contact">
+              <p>לפניות בנושא נגישות:</p>
+              <a href="mailto:melker694@gmail.com">melker694@gmail.com</a><br />
+              <a href="tel:0508447575">050-8447575</a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    
+
     <!-- Main Application Logic -->
-</body>
+  </body>
 </html>

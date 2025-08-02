@@ -70,8 +70,7 @@
             color: #FF6135;
             /* Custom color for testimonials */
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 1), 0 0 10px rgba(255, 97, 53, 0.5);
-            font-weight: bold;
-
+            font-weight: 900;
         }
         h1 {
             color: #FF6135;
@@ -83,8 +82,8 @@
         /* Mobile optimizations for sections container */
         @media (max-width: 768px) {
             #sections-container {
-                transition: transform 0.6s ease-in-out;
-                /* Smoother transition on mobile */
+                transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+                /* Same bouncy transition as desktop */
             }
 
             body {
@@ -97,6 +96,38 @@
                 min-height: 100vh;
                 min-height: 100dvh;
                 /* Dynamic viewport height for mobile browsers */
+                padding: 1rem !important;
+            }
+        }
+
+        /* Extra tight mobile responsiveness for small phones */
+        @media (max-width: 480px) {
+            #sections-container .section {
+                padding: 0.5rem !important;
+            }
+            
+            /* Tighter text spacing */
+            h1, h2, h3 {
+                line-height: 1.1 !important;
+                margin-bottom: 0.75rem !important;
+            }
+            
+            p {
+                line-height: 1.4 !important;
+                margin-bottom: 0.5rem !important;
+            }
+        }
+
+        /* Ultra-tight for very small screens */
+        @media (max-width: 375px) {
+            #sections-container .section {
+                padding: 0.25rem !important;
+            }
+            
+            .max-w-6xl, .max-w-5xl, .max-w-4xl, .max-w-3xl, .max-w-2xl {
+                max-width: 100% !important;
+                margin: 0 !important;
+                padding: 0.5rem !important;
             }
         }
 
@@ -132,11 +163,13 @@
         }
 
         #philosophy {
-            background-image: url('./assets/philosophy.jpg');
+            background-image: url('./assets/philosophy.png');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             background-attachment: fixed;
+            position: relative;
+            overflow: hidden;
         }
 
         /* Mobile background images (9:16) */
@@ -148,8 +181,17 @@
             }
 
             #philosophy {
-                background-image: url('./assets/philosophy-mobile.PNG');
+                background-image: url('./assets/philosophy-mobile-bg.png');
                 background-attachment: scroll;
+                background-size: cover;
+                background-position: center right;
+                transition: background-position 0.8s ease-out;
+            }
+
+
+
+            #philosophy.scroll-out {
+                background-position: 150% center;
             }
 
             #testimonials {
@@ -181,6 +223,170 @@
             background-color: rgba(0, 0, 0, 0.5);
             backdrop-filter: blur(10px);
             border-radius: 20px;
+        }
+
+        /* Philosophy section image animation */
+        #philosophy .order-2 {
+            position: relative;
+            overflow: hidden;
+        }
+
+        section#philosophy .order-2 img {
+            transform: translateX(-100%);
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+
+        section#philosophy.active .order-2 img {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        section#philosophy.scroll-out .order-2 img {
+            transform: translateX(-120%);
+            opacity: 0;
+        }
+
+        /* Mobile adjustments for philosophy section */
+        @media (max-width: 768px) {
+            #philosophy .grid {
+                grid-template-columns: 1fr !important;
+                gap: 1.5rem !important;
+            }
+
+            #philosophy .order-1 {
+                order: 1 !important;
+            }
+
+            #philosophy .order-2 {
+                order: 2 !important;
+                text-align: center;
+                overflow: visible !important;
+            }
+
+            section#philosophy .order-2 img {
+                width: 250px !important;
+                max-width: 250px !important;
+                height: auto;
+                margin: 0 auto;
+                display: block;
+            }
+
+            #philosophy-content {
+                padding: 1.5rem !important;
+                max-width: 95%;
+                margin: 0 auto;
+            }
+
+            #philosophy-content h2 {
+                font-size: 2rem !important;
+                margin-bottom: 1rem !important;
+            }
+
+            #philosophy-content p {
+                font-size: 0.9rem !important;
+                line-height: 1.4 !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            section#philosophy .order-2 img {
+                width: 200px !important;
+                max-width: 200px !important;
+            }
+
+            #philosophy-content {
+                padding: 1rem !important;
+            }
+
+            #philosophy-content h2 {
+                font-size: 1.75rem !important;
+            }
+
+            #philosophy-content p {
+                font-size: 0.85rem !important;
+            }
+
+            /* Enhanced services section for small phones */
+            .sliding-nati-image {
+                height: 100vh !important; /* Even bigger on small phones */
+                right: -35% !important;
+            }
+
+            section#services.active .sliding-nati-image {
+                display: absolute;
+                transform: scale(1.25) translateY(-40%) translateX(-35%) !important;
+            }
+
+            #services h2 {
+                font-size: 2rem !important;
+                margin-bottom: 0.75rem !important;
+            }
+
+            #services h3 {
+                font-size: 1.25rem !important;
+            }
+
+            #services .backdrop-blur-sm {
+                padding: 1rem !important;
+            }
+
+            #services ul li {
+                font-size: 0.9rem !important;
+                line-height: 1.3 !important;
+            }
+        }
+
+        @media (max-width: 375px) {
+            section#philosophy .order-2 img {
+                width: 180px !important;
+                max-width: 180px !important;
+            }
+
+            #philosophy-content {
+                padding: 0.75rem !important;
+            }
+
+            #philosophy-content h2 {
+                font-size: 1.5rem !important;
+                margin-bottom: 0.75rem !important;
+            }
+
+            /* Ultra-tight services section for very small screens */
+            .sliding-nati-image {
+                height: 120% !important; /* Maximum size for tiny screens */
+                right: -40% !important;
+            }
+
+            section#services.active .sliding-nati-image {
+                transform: translateY(-50%) translateX(-15%) !important;
+            }
+
+            #services h2 {
+                font-size: 1.75rem !important;
+                line-height: 1.1 !important;
+                margin-bottom: 0.5rem !important;
+            }
+
+            #services h3 {
+                font-size: 1.1rem !important;
+                margin-bottom: 0.5rem !important;
+            }
+
+            #services .backdrop-blur-sm {
+                padding: 0.75rem !important;
+                margin-bottom: 0.75rem !important;
+            }
+
+            #services ul li {
+                font-size: 0.8rem !important;
+                line-height: 1.2 !important;
+                margin-bottom: 0.25rem !important;
+            }
+
+            #philosophy-content p {
+                font-size: 0.8rem !important;
+            }
         }
 
         #why-us-content {
@@ -330,6 +536,29 @@
             .section:not(:first-child) h2 {
                 font-size: 1.25rem !important;
                 /* 20px */
+            }
+
+            /* Services section mobile - small screens */
+            #services {
+                padding: 1.5rem 0.5rem !important;
+            }
+
+            #services h2 {
+                font-size: 2rem !important;
+                margin-bottom: 1.5rem !important;
+            }
+
+            #services .backdrop-blur-sm {
+                padding: 1rem !important;
+                max-width: 95% !important;
+            }
+
+            #services h3 {
+                font-size: 1.25rem !important;
+            }
+
+            #services ul {
+                font-size: 0.8rem !important;
             }
         }
 
@@ -544,6 +773,84 @@
             }
         }
 
+        /* Ultra-tight mobile optimizations for touch targets */
+        @media (max-width: 768px) {
+            /* Ensure touch targets are at least 44px */
+            button, a, input, select, textarea {
+                min-height: 44px;
+                min-width: 44px;
+                touch-action: manipulation;
+            }
+
+            /* Prevent zoom on form inputs */
+            input, select, textarea {
+                font-size: 16px !important;
+            }
+
+            /* Better touch scrolling */
+            body, html {
+                -webkit-overflow-scrolling: touch;
+                scroll-behavior: smooth;
+            }
+
+            /* Prevent horizontal overflow */
+            * {
+                max-width: 100%;
+                box-sizing: border-box;
+            }
+
+            /* Responsive images */
+            img {
+                height: auto;
+                max-width: 100%;
+            }
+
+            /* Better text readability */
+            p, li, span {
+                word-wrap: break-word;
+                hyphens: auto;
+            }
+
+            /* Enhanced CTA buttons for mobile */
+            .px-8, .px-6, .px-4 {
+                padding-left: 1.5rem !important;
+                padding-right: 1.5rem !important;
+            }
+
+            .py-4, .py-3 {
+                padding-top: 1rem !important;
+                padding-bottom: 1rem !important;
+                min-height: 48px !important;
+            }
+
+            /* Ensure all clickable elements are touch-friendly */
+            a, button {
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                text-align: center !important;
+                min-height: 44px !important;
+                padding: 0.75rem 1rem !important;
+            }
+
+            /* Better spacing for sections */
+            .section {
+                padding: 1rem 0.75rem !important;
+            }
+
+            /* Grid optimizations */
+            .grid {
+                grid-template-columns: 1fr !important;
+                gap: 1rem !important;
+            }
+
+            /* Max width containers */
+            .max-w-6xl, .max-w-5xl, .max-w-4xl, .max-w-3xl {
+                max-width: 100% !important;
+                padding: 0 0.5rem !important;
+            }
+        }
+
         /* Improve mobile performance */
         @media (max-width: 768px) {
             * {
@@ -607,6 +914,41 @@
                 padding: 1.5rem !important;
             }
 
+            /* Services section mobile */
+            #services {
+                padding: 2rem 1rem !important;
+            }
+
+            #services h2 {
+                font-size: 2.5rem !important;
+                margin-bottom: 2rem !important;
+            }
+
+            #services .grid {
+                grid-template-columns: 1fr !important;
+                gap: 1.5rem !important;
+            }
+
+            #services .backdrop-blur-sm {
+                padding: 1.5rem !important;
+                margin: 0 auto !important;
+                max-width: 90% !important;
+            }
+
+            #services h3 {
+                font-size: 1.5rem !important;
+                margin-bottom: 1rem !important;
+            }
+
+            #services ul {
+                font-size: 0.9rem !important;
+                line-height: 1.4 !important;
+            }
+
+            #services li {
+                margin-bottom: 0.5rem !important;
+            }
+
             /* Ensure proper text wrapping */
             h1,
             h2,
@@ -628,8 +970,7 @@
             }
         }
 
-        /* Extra small screens (iPhone SE, etc.) */
-        @media (max-width: 375px) {
+        @media (max-width: 460px) {
             .section {
                 padding: 0.125rem !important;
             }
@@ -647,6 +988,29 @@
 
             h2 {
                 font-size: 1.5rem !important;
+            }
+
+            /* Services section - extra small screens */
+            #services {
+                padding: 1rem 0.25rem !important;
+            }
+
+            #services h2 {
+                font-size: 1.75rem !important;
+                margin-bottom: 1rem !important;
+            }
+
+            #services .backdrop-blur-sm {
+                padding: 0.75rem !important;
+                max-width: 98% !important;
+            }
+
+            #services h3 {
+                font-size: 1.1rem !important;
+            }
+
+            #services ul {
+                font-size: 0.75rem !important;
             }
         }
 
@@ -861,5 +1225,565 @@
             .accessibility-info p,
             .accessibility-info ul {
                 font-size: 12px;
+            }
+        }
+
+        /* Testimonials Carousel Styles */
+        .testimonials-carousel-container {
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            width: 100%;
+        }
+
+        .testimonials-carousel {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            overflow: hidden;
+            touch-action: pan-y; /* Allow vertical scrolling but handle horizontal swipes */
+        }
+
+        .testimonial-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: all 0.6s ease-in-out;
+            transform: translateX(100%);
+        }
+
+        .testimonial-slide.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .testimonial-slide.prev {
+            transform: translateX(-100%);
+        }
+
+        .testimonial-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .testimonial-slide:hover .testimonial-image {
+            transform: scale(1.02);
+        }
+
+        /* Carousel Navigation Arrows */
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 97, 53, 0.9);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 10;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .carousel-nav:hover {
+            background: #FF6135;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .carousel-nav-prev {
+            left: 15px;
+        }
+
+        .carousel-nav-next {
+            right: 15px;
+        }
+
+        /* Carousel Dots */
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .carousel-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .carousel-dot:hover {
+            background: rgba(255, 97, 53, 0.7);
+        }
+
+        .carousel-dot.active {
+            background: #FF6135;
+        }
+
+        /* Mobile adjustments for carousel */
+        @media (max-width: 768px) {
+            .testimonials-carousel-container {
+                max-width: 95%;
+                margin: 0 auto;
+                border-radius: 16px;
+            }
+
+            .testimonials-carousel {
+                height: 320px;
+            }
+
+            .testimonial-image {
+                border-radius: 16px;
+            }
+
+            .carousel-nav {
+                width: 44px;
+                height: 44px;
+                font-size: 22px;
+                background: rgba(255, 97, 53, 0.95);
+            }
+
+            .carousel-nav-prev {
+                left: 8px;
+            }
+
+            .carousel-nav-next {
+                right: 8px;
+            }
+
+            .carousel-dots {
+                gap: 10px;
+                margin-top: 18px;
+            }
+
+            .carousel-dot {
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                border: none;
+                background: rgba(255, 255, 255, 0.4);
+                cursor: pointer;
+                transition: background 0.3s ease;
+            }
+
+            .carousel-dot:hover {
+                background: rgba(255, 97, 53, 0.7);
+            }
+
+            .carousel-dot.active {
+                background: #FF6135;
+            }
+
+            /* Testimonials section title adjustments */
+            #testimonials h2 {
+                margin-bottom: 2rem !important;
+                font-size: 3rem !important;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .testimonials-carousel-container {
+                max-width: 98%;
+                border-radius: 12px;
+                margin: 0 auto 1rem;
+            }
+
+            .testimonials-carousel {
+                height: 280px;
+            }
+
+            .testimonial-image {
+                border-radius: 12px;
+            }
+
+            .carousel-nav {
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
+            }
+
+            .carousel-nav-prev {
+                left: 6px;
+            }
+
+            .carousel-nav-next {
+                right: 6px;
+            }
+
+            #testimonials h2 {
+                font-size: 2.5rem !important;
+                margin-bottom: 1.5rem !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .testimonials-carousel-container {
+                max-width: 100%;
+                border-radius: 8px;
+                margin: 0;
+            }
+
+            .testimonials-carousel {
+                height: 240px;
+            }
+
+            .testimonial-image {
+                border-radius: 8px;
+            }
+
+            .carousel-nav {
+                width: 36px;
+                height: 36px;
+                font-size: 18px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+            }
+
+            .carousel-nav-prev {
+                left: 4px;
+            }
+
+            .carousel-nav-next {
+                right: 4px;
+            }
+
+            .carousel-dots {
+                gap: 8px;
+                margin-top: 16px;
+            }
+
+            .carousel-dot {
+                width: 7px;
+                height: 7px;
+                border-radius: 50%;
+                border: none;
+                background: rgba(255, 255, 255, 0.4);
+                cursor: pointer;
+                transition: background 0.3s ease;
+            }
+
+            .carousel-dot:hover {
+                background: rgba(255, 97, 53, 0.7);
+            }
+
+            .carousel-dot.active {
+                background: #FF6135;
+            }
+
+            #testimonials h2 {
+                font-size: 2rem !important;
+                margin-bottom: 1rem !important;
+            }
+
+            #testimonials .section {
+                padding: 2rem 0.5rem !important;
+            }
+        }
+
+        @media (max-width: 375px) {
+            .testimonials-carousel {
+                height: 220px;
+            }
+
+            .carousel-nav {
+                width: 32px;
+                height: 32px;
+                font-size: 16px;
+            }
+
+            .carousel-nav-prev {
+                left: 2px;
+            }
+
+            .carousel-nav-next {
+                right: 2px;
+            }
+
+            .carousel-dots {
+                gap: 6px;
+                margin-top: 14px;
+            }
+
+            .carousel-dot {
+                width: 6px;
+                height: 6px;
+                border-radius: 50%;
+                border: none;
+                background: rgba(255, 255, 255, 0.4);
+                cursor: pointer;
+                transition: background 0.3s ease;
+            }
+
+            .carousel-dot:hover {
+                background: rgba(255, 97, 53, 0.7);
+            }
+
+            .carousel-dot.active {
+                background: #FF6135;
+            }
+
+            #testimonials h2 {
+                font-size: 1.75rem !important;
+            }
+        }
+
+        /* Enhanced touch interaction for mobile */
+        @media (hover: none) and (pointer: coarse) {
+            .testimonials-carousel {
+                cursor: grab;
+            }
+
+            .testimonials-carousel:active {
+                cursor: grabbing;
+            }
+
+            .carousel-nav:hover {
+                transform: translateY(-50%) scale(1.05);
+            }
+
+            .carousel-dot:hover {
+                transform: scale(1.1);
+            }
+
+            /* Larger touch targets on touch devices */
+            .carousel-nav {
+                min-width: 44px;
+                min-height: 44px;
+            }
+        }
+
+        /* Contact Form Styles */
+        .contact-input {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: white;
+            font-family: 'Heebo', sans-serif;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            direction: rtl;
+            text-align: right;
+        }
+
+        .contact-input:focus {
+            outline: none;
+            border-color: #FF6135;
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 0 3px rgba(255, 97, 53, 0.2);
+        }
+
+        .contact-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+            direction: rtl;
+            text-align: right;
+        }
+
+        .contact-submit-btn {
+            width: 100%;
+            padding: 16px 24px;
+            background: linear-gradient(135deg, #FF6135, #e64a19);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Heebo', sans-serif;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 97, 53, 0.3);
+        }
+
+        .contact-submit-btn:hover {
+            background: linear-gradient(135deg, #e64a19, #d84315);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 97, 53, 0.4);
+        }
+
+        .contact-submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .contact-submit-btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .contact-alt-btn {
+            display: inline-block;
+            padding: 12px 24px;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-align: center;
+            min-width: 200px;
+        }
+
+        .contact-alt-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .form-status {
+            margin-top: 16px;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .form-status.success {
+            background: rgba(76, 175, 80, 0.2);
+            border: 2px solid #4CAF50;
+            color: #4CAF50;
+            opacity: 1;
+        }
+
+        .form-status.error {
+            background: rgba(244, 67, 54, 0.2);
+            border: 2px solid #f44336;
+            color: #f44336;
+            opacity: 1;
+        }
+
+        .form-group label {
+            color: #FF6135;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Smooth scroll behavior for CTAs */
+        .scroll-to-contact {
+            scroll-behavior: smooth;
+        }
+
+        /* Mobile adjustments for contact form */
+        @media (max-width: 768px) {
+            .contact-input {
+                font-size: 16px; /* Prevent zoom on iOS */
+                padding: 14px 16px;
+            }
+
+            .contact-submit-btn {
+                padding: 18px 24px;
+                font-size: 16px;
+            }
+
+            .contact-alt-btn {
+                padding: 14px 20px;
+                min-width: 100%;
+                margin-bottom: 12px;
+            }
+
+            .contact-alternatives .flex {
+                flex-direction: column;
+            }
+
+            #contact .max-w-4xl {
+                max-width: 95%;
+            }
+
+            #contact .max-w-2xl {
+                max-width: 100%;
+            }
+
+            #contact {
+                padding: 2rem 1rem !important;
+            }
+
+            #contact h2 {
+                font-size: 2.5rem !important;
+                margin-bottom: 1rem !important;
+            }
+
+            #contact p {
+                font-size: 1.1rem !important;
+                margin-bottom: 2rem !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .contact-input {
+                padding: 14px 16px; /* Bigger touch targets */
+                font-size: 16px; /* Keep 16px to prevent zoom */
+                min-height: 50px; /* Ensure adequate touch target */
+                border-radius: 8px;
+            }
+
+            .contact-submit-btn {
+                padding: 18px 24px; /* Bigger touch target */
+                font-size: 16px;
+                min-height: 56px; /* Larger touch target for buttons */
+                border-radius: 8px;
+            }
+
+            #contact {
+                padding: 1rem 0.5rem !important;
+            }
+
+            #contact h2 {
+                font-size: 2rem !important;
+                margin-bottom: 0.75rem !important;
+            }
+
+            #contact p {
+                font-size: 1rem !important;
+                margin-bottom: 1.5rem !important;
+            }
+
+            #contact .grid {
+                gap: 1rem !important;
+            }
+
+            #contact .space-y-6 > * + * {
+                margin-top: 1rem !important;
+            }
+        }
+
+        @media (max-width: 375px) {
+            #contact {
+                padding: 1rem 0.25rem !important;
+            }
+
+            #contact h2 {
+                font-size: 1.75rem !important;
+            }
+
+            #contact p {
+                font-size: 0.9rem !important;
+            }
+
+            .contact-input {
+                padding: 10px 12px;
+                font-size: 16px;
+            }
+
+            .contact-submit-btn {
+                padding: 14px 18px;
             }
         }
